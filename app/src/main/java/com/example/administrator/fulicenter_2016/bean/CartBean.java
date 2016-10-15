@@ -18,10 +18,10 @@ public class CartBean {
     private int id;
     private String userName;
     private int goodsId;
-    private Object goods;
     private int count;
     private boolean isChecked;
     private boolean checked;
+    private GoodsDetailsBean goods;
 
     public int getId() {
         return id;
@@ -51,9 +51,6 @@ public class CartBean {
         return goods;
     }
 
-    public void setGoods(Object goods) {
-        this.goods = goods;
-    }
 
     public int getCount() {
         return count;
@@ -82,16 +79,20 @@ public class CartBean {
     public CartBean() {
     }
 
+    public void setGoods(GoodsDetailsBean goods) {
+        this.goods = goods;
+    }
+
     @Override
     public String toString() {
         return "CartBean{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", goodsId=" + goodsId +
-                ", goods=" + goods +
                 ", count=" + count +
                 ", isChecked=" + isChecked +
                 ", checked=" + checked +
+                ", goods=" + goods +
                 '}';
     }
 }

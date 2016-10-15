@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,6 +44,7 @@ public class GoodsDetailsBean {
     private long addTime;
     private String shareUrl;
     private boolean promote;
+    private PropertiesBean[] properArray;
     /**
      * id : 9529
      * goodsId : 0
@@ -54,7 +56,6 @@ public class GoodsDetailsBean {
      * albums : [{"pid":7677,"imgId":28296,"imgUrl":"201509/goods_img/7677_P_1442391216432.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28297,"imgUrl":"201509/goods_img/7677_P_1442391216215.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28298,"imgUrl":"201509/goods_img/7677_P_1442391216692.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28299,"imgUrl":"201509/goods_img/7677_P_1442391216316.png","thumbUrl":"no_picture.gif"}]
      */
 
-    private List<PropertiesBean> properties;
 
     public int getId() {
         return id;
@@ -184,12 +185,13 @@ public class GoodsDetailsBean {
         this.promote = promote;
     }
 
-    public List<PropertiesBean> getProperties() {
-        return properties;
+
+    public PropertiesBean[] getProperArray() {
+        return properArray;
     }
 
-    public void setProperties(List<PropertiesBean> properties) {
-        this.properties = properties;
+    public void setProperArray(PropertiesBean[] properArray) {
+        this.properArray = properArray;
     }
 
     public GoodsDetailsBean() {
@@ -214,7 +216,7 @@ public class GoodsDetailsBean {
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
                 ", promote=" + promote +
-                ", properties=" + properties +
+                ", properArray=" + Arrays.toString(properArray) +
                 '}';
     }
 }

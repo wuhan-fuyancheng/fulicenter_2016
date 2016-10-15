@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,14 +26,14 @@ public class PropertiesBean {
     private String colorCode;
     private String colorImg;
     private String colorUrl;
+    private AlbumsBean[] albums;
+
     /**
      * pid : 6936
      * imgId : 26104
      * imgUrl : 201508/goods_img/6936_P_1439535131675.png
      * thumbUrl : no_picture.gif
      */
-
-    private List<AlbumsBean> albums;
 
     public int getId() {
         return id;
@@ -90,11 +91,11 @@ public class PropertiesBean {
         this.colorUrl = colorUrl;
     }
 
-    public List<AlbumsBean> getAlbums() {
+    public AlbumsBean[] getAlbums() {
         return albums;
     }
 
-    public void setAlbums(List<AlbumsBean> albums) {
+    public void setAlbums(AlbumsBean[] albums) {
         this.albums = albums;
     }
 
@@ -111,7 +112,7 @@ public class PropertiesBean {
                 ", colorCode='" + colorCode + '\'' +
                 ", colorImg='" + colorImg + '\'' +
                 ", colorUrl='" + colorUrl + '\'' +
-                ", albums=" + albums +
+                ", albums=" + Arrays.toString(albums) +
                 '}';
     }
 }

@@ -40,9 +40,11 @@ public class NewGoodsBean {
     private boolean isPromote;
     private String goodsThumb;
     private String goodsImg;
-    private long addTime;
-    private String shareUrl;
-    private boolean promote;
+    private int colorId;
+    private String colorName;
+    private String colorCode;
+    private String colorUrl;
+    private String addTime;
     /**
      * id : 8514
      * goodsId : 0
@@ -160,29 +162,11 @@ public class NewGoodsBean {
         this.goodsImg = goodsImg;
     }
 
-    public long getAddTime() {
-        return addTime;
-    }
 
-    public void setAddTime(long addTime) {
-        this.addTime = addTime;
-    }
 
-    public String getShareUrl() {
-        return shareUrl;
-    }
 
-    public void setShareUrl(String shareUrl) {
-        this.shareUrl = shareUrl;
-    }
 
-    public boolean isPromote() {
-        return promote;
-    }
 
-    public void setPromote(boolean promote) {
-        this.promote = promote;
-    }
 
     public List<PropertiesBean> getProperties() {
         return properties;
@@ -193,6 +177,54 @@ public class NewGoodsBean {
     }
 
     public NewGoodsBean() {
+    }
+
+    public boolean isPromote() {
+        return isPromote;
+    }
+
+    public void setPromote(boolean promote) {
+        isPromote = promote;
+    }
+
+    public int getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
+    }
+
+    public String getColorName() {
+        return colorName;
+    }
+
+    public void setColorName(String colorName) {
+        this.colorName = colorName;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
+    }
+
+    public String getColorUrl() {
+        return colorUrl;
+    }
+
+    public void setColorUrl(String colorUrl) {
+        this.colorUrl = colorUrl;
+    }
+
+    public String getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
     }
 
     @Override
@@ -211,9 +243,11 @@ public class NewGoodsBean {
                 ", isPromote=" + isPromote +
                 ", goodsThumb='" + goodsThumb + '\'' +
                 ", goodsImg='" + goodsImg + '\'' +
-                ", addTime=" + addTime +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", promote=" + promote +
+                ", colorId=" + colorId +
+                ", colorName='" + colorName + '\'' +
+                ", colorCode='" + colorCode + '\'' +
+                ", colorUrl='" + colorUrl + '\'' +
+                ", addTime='" + addTime + '\'' +
                 ", properties=" + properties +
                 '}';
     }
