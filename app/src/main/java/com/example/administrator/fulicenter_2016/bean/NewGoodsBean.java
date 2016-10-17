@@ -44,7 +44,7 @@ public class NewGoodsBean {
     private String colorName;
     private String colorCode;
     private String colorUrl;
-    private String addTime;
+    private long addTime;
     /**
      * id : 8514
      * goodsId : 0
@@ -219,11 +219,11 @@ public class NewGoodsBean {
         this.colorUrl = colorUrl;
     }
 
-    public String getAddTime() {
+    public long getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(long addTime) {
         this.addTime = addTime;
     }
 

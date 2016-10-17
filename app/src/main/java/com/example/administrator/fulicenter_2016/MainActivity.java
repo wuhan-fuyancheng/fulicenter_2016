@@ -1,16 +1,19 @@
 package com.example.administrator.fulicenter_2016;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
+
+import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    Fragment[] fragments;
+    FragmentNewGoods fragmentNewGoods;
     @BindView(R.id.mainRB1)
     RadioButton mainRB1;
     @BindView(R.id.mainRB2)
@@ -31,6 +34,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        initFragment();
+    }
+
+    private void initFragment() {
+        fragments=new Fragment[5];
+        fragmentNewGoods=new FragmentNewGoods();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container,fragmentNewGoods)
+                .show(fragmentNewGoods)
+                .commit();
     }
 
     private void initView() {
@@ -40,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
         rbs[2] = mainRB3;
         rbs[3] = mainRB4;
         rbs[4] = mainRB5;
-
-
     }
 
     public void onCheckedChange(View view) {
