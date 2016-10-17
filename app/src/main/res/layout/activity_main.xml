@@ -16,11 +16,7 @@
     >
 
 
-    <RadioGroup
-        android:id="@+id/mainRG"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
+
         >
         <RadioButton
             android:id="@+id/mainRB1"
@@ -38,7 +34,7 @@
             android:drawableTop="@drawable/selector_menu_item_boutique"
             style="@style/menu_item_style"
             android:textColor="@color/main_botton_text_color"
-            android:checked="true"
+            android:checked="false"
             />
         <RadioButton
             android:id="@+id/mainRB3"
@@ -47,7 +43,7 @@
             android:drawableTop="@drawable/selector_menu_item_category"
             style="@style/menu_item_style"
             android:textColor="@color/main_botton_text_color"
-            android:checked="true"
+            android:checked="false"
             />
         <RelativeLayout
            style="@style/style_menu_item">
@@ -93,10 +89,8 @@
             android:drawableTop="@drawable/selector_menu_item_personal_center"
             style="@style/menu_item_style"
             android:textColor="@color/main_botton_text_color"
-            android:checked="true"
+            android:checked="false"
             />
-
-    </RadioGroup>
 </LinearLayout>
     <View
         android:id="@+id/vline"
