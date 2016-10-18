@@ -66,10 +66,15 @@ public class FragmentNewGoods extends Fragment {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 L.i("result="+result);
-
+                srl.setRefreshing(false);
+                tvfresh.setVisibility(View.GONE);
+                mAdapter.setIsmore(true);
                 if (result!=null&&result.length>0){
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     mAdapter.initData(list);
+                    if (list.size()<I.PAGE_SIZE_DEFAULT){
+                        mAdapter.setIsmore(false);
+                    }mAdapter.setIsmore(true);
                 }
             }
             @Override

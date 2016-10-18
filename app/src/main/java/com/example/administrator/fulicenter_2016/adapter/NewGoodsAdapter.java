@@ -25,6 +25,16 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
     Context context;
     List<NewGoodsBean> mlist;
 
+    public boolean ismore() {
+        return ismore;
+    }
+
+    public void setIsmore(boolean ismore) {
+        this.ismore = ismore;
+        notifyDataSetChanged();
+    }
+
+    boolean ismore;
     public NewGoodsAdapter(Context context, List<NewGoodsBean> mlist) {
         this.context = context;
         this.mlist = new ArrayList<>();
@@ -46,7 +56,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position)==I.TYPE_FOOTER){
             FooterHolder vh= (FooterHolder) holder;
-            if (position==getItemCount()-1){
+            if (!ismore){
             vh.tvFooter.setText("没有更多数据了");}
             else {
                 vh.tvFooter.setText("加载更多数据");
