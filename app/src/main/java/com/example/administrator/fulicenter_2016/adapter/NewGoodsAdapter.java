@@ -57,9 +57,12 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position)==I.TYPE_FOOTER){
             FooterHolder vh= (FooterHolder) holder;
             if (!ismore){
-            vh.tvFooter.setText("没有更多数据了");}
+            vh.tvFooter.setText("没有更多数据了");
+            notifyDataSetChanged();
+            }
             else {
                 vh.tvFooter.setText("加载更多数据");
+                notifyDataSetChanged();
             }
 
         }else {
@@ -89,6 +92,11 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
         if (list!=null){
             mlist.clear();
         }
+        mlist.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void addData(ArrayList<NewGoodsBean> list) {
         mlist.addAll(list);
         notifyDataSetChanged();
     }

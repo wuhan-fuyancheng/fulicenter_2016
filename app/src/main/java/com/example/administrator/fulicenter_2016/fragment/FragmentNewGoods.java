@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class FragmentNewGoods extends Fragment {
+    GridLayoutManager glm;
     MainActivity mContext;
     NewGoodsAdapter mAdapter;
     ArrayList<NewGoodsBean> mList;
@@ -56,12 +57,49 @@ public class FragmentNewGoods extends Fragment {
         mAdapter=new NewGoodsAdapter(mContext,mList);
         initView();
         initData();
+        setListener();
         return layout;
     }
 
+    private void setListener() {
+        setUpDownloadNewGoods(); //上拉加载
+        setPullDownloadNewGoods();// 下拉刷新
+    }
+
+    private void setUpDownloadNewGoods() {
+        newgoodsRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int lastPosition=glm.findLastVisibleItemPosition();
+                if (lastPosition>=mAdapter.getItemCount()-1&&newState==newgoodsRecyclerView.SCROLL_STATE_IDLE
+                        &&mAdapter.ismore()){
+                    pageId++;
+                    downloadnewgoodsdata(I.ACTION_PULL_UP);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+    }
+
+    private void setPullDownloadNewGoods() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageId=1;
+                srl.setRefreshing(true);
+                tvfresh.setVisibility(View.VISIBLE);
+                downloadnewgoodsdata(I.ACTION_PULL_DOWN);
+            }
+        });
+    }
 
 
-    private void initData() {
+    private void downloadnewgoodsdata(final int action){
         NewDao.downloadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
@@ -71,7 +109,11 @@ public class FragmentNewGoods extends Fragment {
                 mAdapter.setIsmore(true);
                 if (result!=null&&result.length>0){
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                    mAdapter.initData(list);
+                    if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
+                    mAdapter.initData(list);}
+                    else {
+                        mAdapter.addData(list);
+                    }
                     if (list.size()<I.PAGE_SIZE_DEFAULT){
                         mAdapter.setIsmore(false);
                     }mAdapter.setIsmore(true);
@@ -85,6 +127,9 @@ public class FragmentNewGoods extends Fragment {
             }
         });
     }
+    private void initData() {
+        downloadnewgoodsdata(I.ACTION_DOWNLOAD);
+    }
 
     private void initView() {
         srl.setColorSchemeColors(
@@ -93,7 +138,7 @@ public class FragmentNewGoods extends Fragment {
                 getResources().getColor(R.color.google_red),
                 getResources().getColor(R.color.google_yellow)
         );
-        GridLayoutManager glm=new GridLayoutManager(mContext, I.COLUM_NUM);
+        glm=new GridLayoutManager(mContext, I.COLUM_NUM);
         newgoodsRecyclerView.setLayoutManager(glm);
         newgoodsRecyclerView.setHasFixedSize(true); //可否修复大小
         newgoodsRecyclerView.setAdapter(mAdapter);
