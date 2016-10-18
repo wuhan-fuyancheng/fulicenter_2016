@@ -1,22 +1,27 @@
 package com.example.administrator.fulicenter_2016.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.NewGoodsBean;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -24,6 +29,7 @@ import butterknife.ButterKnife;
 public class NewGoodsAdapter extends RecyclerView.Adapter {
     Context context;
     List<NewGoodsBean> mlist;
+
 
     public boolean ismore() {
         return ismore;
@@ -35,6 +41,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
     }
 
     boolean ismore;
+
     public NewGoodsAdapter(Context context, List<NewGoodsBean> mlist) {
         this.context = context;
         this.mlist = new ArrayList<>();
@@ -54,24 +61,21 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position)==I.TYPE_FOOTER){
-            FooterHolder vh= (FooterHolder) holder;
-            if (!ismore){
-            vh.tvFooter.setText("没有更多数据了");
-            notifyDataSetChanged();
-            }
-            else {
-                vh.tvFooter.setText("加载更多数据");
-                notifyDataSetChanged();
-            }
-
-        }else {
-            NewGoodsHolder vh= (NewGoodsHolder) holder;
-            NewGoodsBean goods=mlist.get(position);
-            ImageLoader.downloadImg(context,vh.ivItemNewgoods,goods.getGoodsThumb());
+        if (getItemViewType(position) == I.TYPE_FOOTER) {
+            FooterHolder vh = (FooterHolder) holder;
+            vh.tvFooter.setText(footsettext());
+        } else {
+            NewGoodsHolder vh = (NewGoodsHolder) holder;
+            NewGoodsBean goods = mlist.get(position);
+            ImageLoader.downloadImg(context, vh.ivItemNewgoods, goods.getGoodsThumb());
             vh.tvItemNewgoodsname.setText(goods.getGoodsName());
             vh.tvItemNewgoodsjiage.setText(goods.getCurrencyPrice());
+            vh.layoutItemGoods.setTag(goods.getGoodsId());
         }
+    }
+
+    private int footsettext() {
+        return ismore() ? R.string.load_more : R.string.no_more;
     }
 
     @Override
@@ -89,7 +93,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
     }
 
     public void initData(ArrayList<NewGoodsBean> list) {
-        if (list!=null){
+        if (list != null) {
             mlist.clear();
         }
         mlist.addAll(list);
@@ -111,17 +115,25 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    static class NewGoodsHolder extends RecyclerView.ViewHolder{
+    public class NewGoodsHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_item_newgoods)
         ImageView ivItemNewgoods;
         @BindView(R.id.tv_item_newgoodsname)
         TextView tvItemNewgoodsname;
         @BindView(R.id.tv_item_newgoodsjiage)
         TextView tvItemNewgoodsjiage;
+        @BindView(R.id.layout_item_goods)
+        LinearLayout layoutItemGoods;
+
 
         NewGoodsHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+        @OnClick(R.id.layout_item_goods)
+        public void onGoodsItemClick(){
+            int goodsId= (int) layoutItemGoods.getTag();
+            MFGT.gotoGoodsDetailsActivity((Activity) context,goodsId);
         }
     }
 }

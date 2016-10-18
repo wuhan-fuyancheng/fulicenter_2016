@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+   ><TextView
+    android:id="@+id/goodsEnglishName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="30dp"
+    android:text="英文名称                "
+    android:layout_gravity="center_horizontal"
+    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+    <TextView
+        android:id="@+id/goodsChinaName"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="中文名称"
+        />
+    <TextView
+        android:id="@+id/goodsDetailJiage"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="价格"
+        />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_goodsdetail_pic"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/nopic"
+        />
+    <TextView
+        android:id="@+id/goodsDetailjianjie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="商品简介 饭按 排队缴费按那负担覅按方案给你 加个分潘安那鞍钢你啊你干你"
+        android:layout_gravity="center"
+        android:maxWidth="250dp"
+        />
+
+</LinearLayout>

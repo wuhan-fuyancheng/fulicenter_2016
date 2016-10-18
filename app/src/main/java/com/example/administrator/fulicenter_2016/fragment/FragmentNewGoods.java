@@ -2,6 +2,7 @@ package com.example.administrator.fulicenter_2016.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.Space;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.ConvertUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.L;
+import com.example.administrator.fulicenter_2016.views.SpaceItemDecoration;
 
 import java.util.ArrayList;
 
@@ -106,17 +108,17 @@ public class FragmentNewGoods extends Fragment {
                 L.i("result="+result);
                 srl.setRefreshing(false);
                 tvfresh.setVisibility(View.GONE);
-                mAdapter.setIsmore(true);
                 if (result!=null&&result.length>0){
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
                     mAdapter.initData(list);}
-                    else {
+                    if (action==I.ACTION_PULL_UP){
                         mAdapter.addData(list);
                     }
                     if (list.size()<I.PAGE_SIZE_DEFAULT){
                         mAdapter.setIsmore(false);
-                    }mAdapter.setIsmore(true);
+                    }
+                    else {mAdapter.setIsmore(true);}
                 }
             }
             @Override
@@ -142,7 +144,7 @@ public class FragmentNewGoods extends Fragment {
         newgoodsRecyclerView.setLayoutManager(glm);
         newgoodsRecyclerView.setHasFixedSize(true); //可否修复大小
         newgoodsRecyclerView.setAdapter(mAdapter);
-
+        newgoodsRecyclerView.addItemDecoration(new SpaceItemDecoration(12));
     }
 
 }
