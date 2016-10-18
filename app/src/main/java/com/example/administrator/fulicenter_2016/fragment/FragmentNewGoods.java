@@ -16,6 +16,7 @@ import com.example.administrator.fulicenter_2016.adapter.NewGoodsAdapter;
 import com.example.administrator.fulicenter_2016.bean.NewGoodsBean;
 import com.example.administrator.fulicenter_2016.net.NewDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
+import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.ConvertUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.L;
@@ -65,6 +66,7 @@ public class FragmentNewGoods extends Fragment {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 L.i("result="+result);
+
                 if (result!=null&&result.length>0){
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     mAdapter.initData(list);
@@ -72,7 +74,9 @@ public class FragmentNewGoods extends Fragment {
             }
             @Override
             public void onError(String error) {
-            L.i("error:"+error);
+                tvfresh.setVisibility(View.GONE);
+                CommonUtils.showShortToast(error);
+                L.i("error:"+error);
             }
         });
     }
