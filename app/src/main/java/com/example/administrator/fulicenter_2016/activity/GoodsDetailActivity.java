@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.AlbumsBean;
 import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
+import com.example.administrator.fulicenter_2016.bean.PropertiesBean;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.CommonUtils;
@@ -19,18 +20,17 @@ import com.example.administrator.fulicenter_2016.utils.MFGT;
 import com.example.administrator.fulicenter_2016.views.FlowIndicator;
 import com.example.administrator.fulicenter_2016.views.SlideAutoLoopView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GoodsDetailActivity extends AppCompatActivity {
     int goodsId;
-    @BindView(R.id.backClickArea)
-    LinearLayout backClickArea;
+
     @BindView(R.id.tv_good_name_english)
     TextView tvGoodNameEnglish;
-    @BindView(R.id.tv_good_price_shop)
-    TextView tvGoodPriceShop;
     @BindView(R.id.tv_good_price_current)
     TextView tvGoodPriceCurrent;
     @BindView(R.id.salv)
@@ -41,8 +41,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
     WebView wvGoodBrief;
     @BindView(R.id.tv_good_name)
     TextView tvGoodName;
-
     GoodsDetailActivity mContext;
+    @BindView(R.id.backClickArea)
+    LinearLayout backClickArea;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +52,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
         Log.i("main", goodsId + "");
-        if (goodsId==0){
+        if (goodsId == 0) {
             finish();
         }
-        mContext=this;
+        mContext = this;
         initView();
         initData();
         setListener();
@@ -67,20 +69,19 @@ public class GoodsDetailActivity extends AppCompatActivity {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-                L.i("details","details="+result);
-                if (result!=null){
+                Log.i("main", result.toString());
+                if (result != null) {
                     showGoodDetails(result);
-                }else {
+                } else {
                     finish();
                 }
             }
 
 
-
             @Override
             public void onError(String error) {
                 finish();
-                L.i("details,error"+error);
+                L.i("details,error" + error);
                 CommonUtils.showShortToast(error);
             }
         });
@@ -90,35 +91,28 @@ public class GoodsDetailActivity extends AppCompatActivity {
         tvGoodNameEnglish.setText(result.getGoodsEnglishName());
         tvGoodName.setText(result.getGoodsName());
         tvGoodPriceCurrent.setText(result.getCurrencyPrice());
-        tvGoodPriceShop.setText(result.getShopPrice());
-        salv.startPlayLoop(indicator,getAlbumImagUrl(result),getAlbumImgCount(result));
-        wvGoodBrief.loadDataWithBaseURL(null,result.getGoodsBrief(),I.TEXT_HTML,I.UTF_8,null);
-    }
+        wvGoodBrief.loadDataWithBaseURL(null, result.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
+        /*tvGoodPriceShop.setText(result.getShopPrice());*/
 
-    private int getAlbumImgCount(GoodsDetailsBean result) {
-        if (result.getProperArray()!=null&&result.getProperArray().length>0){
-            return  result.getProperArray()[0].getAlbums().length;
-        }
-        else{
-            return 0;}
-    }
-
-    private String[] getAlbumImagUrl(GoodsDetailsBean result) {
-        String[] urls=new String[]{};
-        if (result.getProperArray()!=null&&result.getProperArray().length>0){
-            AlbumsBean[] albums=result.getProperArray()[0].getAlbums();
-            urls=new String[albums.length];
-            for (int i=0;i<albums.length;i++){
-                urls[i]=albums[i].getImgUrl();
+        ArrayList<String> imageUrls = new ArrayList<>();
+        PropertiesBean[] properties = result.getProperArray();
+        for (int i = 0; i < properties.length; i++) {
+            PropertiesBean bean = properties[i];
+            AlbumsBean[] albumsBeens = bean.getAlbums();
+            for (AlbumsBean albumsBean : albumsBeens) {
+                imageUrls.add(albumsBean.getImgUrl());
             }
         }
-        return urls;
+        String[] urls = (String[]) imageUrls.toArray(new String[imageUrls.size()]);
+        salv.startPlayLoop(indicator, urls, urls.length);
     }
 
     private void initView() {
+
     }
+
     @OnClick(R.id.backClickArea)
-    public void onBackClick(){
+    public void onBackClick() {
         MFGT.finish(this);
     }
 }

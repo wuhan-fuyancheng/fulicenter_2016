@@ -1,12 +1,13 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/13.
  */
-public class PropertiesBean {
+public class PropertiesBean implements Serializable{
 
     /**
      * id : 8514

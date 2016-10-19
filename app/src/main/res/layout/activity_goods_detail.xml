@@ -4,115 +4,115 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/good_detail_bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto"><RelativeLayout
-    android:id="@+id/layout_title"
-    android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:background="@color/main_orange">
-    <include layout="@layout/common_head_title"
-    />
-    <ImageView
-        android:id="@+id/iv_good_share"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:paddingBottom="5dp"
-        android:src="@drawable/selector_share_bg"
-        />
-<ImageView
-    android:id="@+id/iv_good_collect"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_toLeftOf="@+id/iv_good_share"
-    android:padding="5dp"
-    android:src="@mipmap/bg_collect_in"
-    />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/iv_good_collect"
-        >
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/main_orange">
+        <include layout="@layout/common_head_title"/>
+
         <ImageView
-            android:id="@+id/iv_good_cart"
+            android:id="@+id/iv_good_share"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:src="@mipmap/bg_cart_selected"
+            android:paddingBottom="5dp"
+            android:src="@mipmap/bg_share_nor"
             />
+        <ImageView
+            android:id="@+id/iv_good_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/iv_good_share"
+            android:padding="5dp"
+            android:src="@mipmap/bg_collect_in"
+            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/iv_good_collect"
+            >
+            <ImageView
+                android:id="@+id/iv_good_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:src="@mipmap/bg_cart_selected"
+                />
+            <TextView
+                android:id="@+id/tv_cart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="#f00"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                />
+        </RelativeLayout>
+    </RelativeLayout>   //标题
+    <RelativeLayout
+        android:id="@+id/layout_banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:padding="25dp"
+        android:background="@color/good_detail_bg_white"
+        android:layout_below="@id/layout_title"
+        >
         <TextView
-            android:id="@+id/tv_cart_count"
+            android:id="@+id/tv_good_name_english"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textColor="#f00"
+            android:layout_margin="5dp"
+            android:textColor="@color/black"
+            android:text="英文名称"
+            />
+        <TextView
+            android:id="@+id/tv_good_name"
+            android:layout_below="@id/tv_good_name_english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textColor="@color/black"
+            android:text="中文名称"
+            />
+        <TextView
+            android:id="@+id/tv_good_price_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:textColor="@color/good_detail_currency_price"
+            android:text="价格"
+            />
+        <TextView
+            android:id="@+id/tv_good_price_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_below="@id/tv_good_price_shop"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/good_detail_currency_price"
+            android:text="价格"
             />
     </RelativeLayout>
-</RelativeLayout>
-<RelativeLayout
-    android:id="@+id/layout_banner"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="25dp"
-    android:background="@color/good_detail_bg_white"
-    android:layout_below="@id/layout_title"
-    >
-    <TextView
-        android:id="@+id/tv_good_name_english"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_margin="5dp"
-        android:textColor="@color/black"
-        android:text="英文名称"
-        />
-    <TextView
-        android:id="@+id/tv_good_name"
-        android:layout_below="@+id/tv_good_name_english"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:textColor="@color/black"
-        android:text="中文名称"
-        />
-    <TextView
-        android:id="@+id/tv_good_price_shop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/good_detail_currency_price"
-        android:text="价格"
-        />
-    <TextView
-        android:id="@+id/tv_good_price_current"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_below="@+id/tv_good_price_shop"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/good_detail_currency_price"
-        android:text="价格"
-        />
-
     <RelativeLayout
         android:id="@+id/layout_image"
         android:layout_width="wrap_content"
         android:layout_height="190dp"
         android:layout_marginTop="50dp"
-        android:layout_below="@id/tv_good_price_current"
+        android:layout_below="@id/layout_banner"
         >
         <com.example.administrator.fulicenter_2016.views.SlideAutoLoopView
             android:id="@+id/salv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/good_detail_bg_white"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
             />
         <com.example.administrator.fulicenter_2016.views.FlowIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             app:count="4"
             app:focus="0"
@@ -126,13 +126,11 @@
         android:id="@+id/wv_good_brief"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_image"
+        android:layout_below="@id/layout_image"
         android:layout_margin="10dp"
         android:background="@color/good_detail_bg_white"
         />
 
 
-
-</RelativeLayout>
 
 </RelativeLayout>

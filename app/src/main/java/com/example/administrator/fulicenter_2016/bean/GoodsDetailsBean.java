@@ -1,12 +1,13 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/13.
  */
-public class GoodsDetailsBean {
+public class GoodsDetailsBean implements Serializable{
 
     /**
      * id : 280
@@ -44,7 +45,7 @@ public class GoodsDetailsBean {
     private long addTime;
     private String shareUrl;
     private boolean promote;
-    private PropertiesBean[] properArray;
+    private PropertiesBean[] properties;
     /**
      * id : 9529
      * goodsId : 0
@@ -187,11 +188,11 @@ public class GoodsDetailsBean {
 
 
     public PropertiesBean[] getProperArray() {
-        return properArray;
+        return properties;
     }
 
     public void setProperArray(PropertiesBean[] properArray) {
-        this.properArray = properArray;
+        this.properties = properArray;
     }
 
     public GoodsDetailsBean() {
@@ -216,7 +217,7 @@ public class GoodsDetailsBean {
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
                 ", promote=" + promote +
-                ", properArray=" + Arrays.toString(properArray) +
+                ", properArray=" + Arrays.toString(properties) +
                 '}';
     }
 }
