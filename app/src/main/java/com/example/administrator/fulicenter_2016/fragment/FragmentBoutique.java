@@ -115,7 +115,6 @@ public class FragmentBoutique extends Fragment {
                    }else {mAdapter.setMore(true);}
                }
             }
-
             @Override
             public void onError(String error) {
                 srl.setRefreshing(false);

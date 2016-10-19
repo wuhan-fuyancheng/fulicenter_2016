@@ -69,22 +69,17 @@ public class GoodsDetailActivity extends AppCompatActivity {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-                Log.i("main", result.toString());
-                if (result != null) {
+                if (result!=null) {
                     showGoodDetails(result);
-                } else {
-                    finish();
                 }
             }
 
-
             @Override
             public void onError(String error) {
-                finish();
-                L.i("details,error" + error);
-                CommonUtils.showShortToast(error);
+
             }
         });
+
     }
 
     private void showGoodDetails(GoodsDetailsBean result) {
