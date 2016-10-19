@@ -1,6 +1,5 @@
 package com.example.administrator.fulicenter_2016.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,19 +7,21 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
+import com.example.administrator.fulicenter_2016.bean.AlbumsBean;
 import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.L;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 import com.example.administrator.fulicenter_2016.views.FlowIndicator;
 import com.example.administrator.fulicenter_2016.views.SlideAutoLoopView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GoodsDetailActivity extends AppCompatActivity {
     int goodsId;
@@ -66,7 +67,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-                L.i("details="+result);
+                L.i("details","details="+result);
                 if (result!=null){
                     showGoodDetails(result);
                 }else {
@@ -79,7 +80,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 finish();
-                L.e("details,error"+error);
+                L.i("details,error"+error);
                 CommonUtils.showShortToast(error);
             }
         });
@@ -90,8 +91,34 @@ public class GoodsDetailActivity extends AppCompatActivity {
         tvGoodName.setText(result.getGoodsName());
         tvGoodPriceCurrent.setText(result.getCurrencyPrice());
         tvGoodPriceShop.setText(result.getShopPrice());
+        salv.startPlayLoop(indicator,getAlbumImagUrl(result),getAlbumImgCount(result));
+        wvGoodBrief.loadDataWithBaseURL(null,result.getGoodsBrief(),I.TEXT_HTML,I.UTF_8,null);
+    }
+
+    private int getAlbumImgCount(GoodsDetailsBean result) {
+        if (result.getProperArray()!=null&&result.getProperArray().length>0){
+            return  result.getProperArray()[0].getAlbums().length;
+        }
+        else{
+            return 0;}
+    }
+
+    private String[] getAlbumImagUrl(GoodsDetailsBean result) {
+        String[] urls=new String[]{};
+        if (result.getProperArray()!=null&&result.getProperArray().length>0){
+            AlbumsBean[] albums=result.getProperArray()[0].getAlbums();
+            urls=new String[albums.length];
+            for (int i=0;i<albums.length;i++){
+                urls[i]=albums[i].getImgUrl();
+            }
+        }
+        return urls;
     }
 
     private void initView() {
+    }
+    @OnClick(R.id.backClickArea)
+    public void onBackClick(){
+        MFGT.finish(this);
     }
 }

@@ -2,7 +2,6 @@ package com.example.administrator.fulicenter_2016.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.Space;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,7 @@ import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.adapter.NewGoodsAdapter;
 import com.example.administrator.fulicenter_2016.bean.NewGoodsBean;
-import com.example.administrator.fulicenter_2016.net.NewDao;
+import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.ConvertUtils;
@@ -102,7 +101,7 @@ public class FragmentNewGoods extends Fragment {
 
 
     private void downloadnewgoodsdata(final int action){
-        NewDao.downloadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+        NetDao.downloadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 L.i("result="+result);
