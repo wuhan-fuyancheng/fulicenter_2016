@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
 import com.example.administrator.fulicenter_2016.bean.CategoryGroupBean;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import java.util.ArrayList;
 
@@ -91,7 +93,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
+    public View getChildView(int groupPosition, final int childPosition, boolean b, View view, ViewGroup viewGroup) {
         ChildViewHolder holder;
         if (view == null) {
             view = View.inflate(mContext, R.layout.item_categorychild, null);
@@ -100,10 +102,16 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         }else {
             holder= (ChildViewHolder) view.getTag();
         }
-        CategoryChildBean child= (CategoryChildBean) getChild(groupPosition,childPosition);
+        final CategoryChildBean child= (CategoryChildBean) getChild(groupPosition,childPosition);
         if (child!=null){
             ImageLoader.downloadImg(mContext,holder.ivCateChildImg,child.getImageUrl());
             holder.ivCateChildName.setText(child.getName());
+            holder.layoutCateChild.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MFGT.gotoCategoryChildChicked((Activity) mContext,child.getId());
+                }
+            });
         }
 
         return view;

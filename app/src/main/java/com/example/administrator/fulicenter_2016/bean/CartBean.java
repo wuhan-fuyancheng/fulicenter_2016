@@ -1,9 +1,11 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/10/13.
  */
-public class CartBean {
+public class CartBean implements Serializable{
 
     /**
      * id : 35

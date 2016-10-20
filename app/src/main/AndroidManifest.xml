@@ -19,7 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GoodsDetailActivity"></activity>
+        <activity android:name=".activity.GoodsDetailActivity" />
+        <activity android:name=".activity.BoutiqueChildctivity" />
+        <activity android:name=".activity.CatetoryChildCheickedActivity"></activity>
     </application>
 
 </manifest>

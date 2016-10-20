@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.activity.BoutiqueChildctivity;
+import com.example.administrator.fulicenter_2016.activity.CatetoryChildCheickedActivity;
 import com.example.administrator.fulicenter_2016.activity.GoodsDetailActivity;
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
 
@@ -41,6 +42,13 @@ public class MFGT {
         Intent intent=new Intent();
         intent.setClass(context, BoutiqueChildctivity.class);
         intent.putExtra("ilu",boutiqueBean);  //序列化
+        context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoCategoryChildChicked(Activity context,int childId){
+        Intent intent=new Intent();
+        intent.setClass(context, CatetoryChildCheickedActivity.class);
+        intent.putExtra("childId",childId);
         context.startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
