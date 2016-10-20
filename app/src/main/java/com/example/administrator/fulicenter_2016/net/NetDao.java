@@ -4,6 +4,8 @@ package com.example.administrator.fulicenter_2016.net;
 import android.content.Context;
 
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
+import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
+import com.example.administrator.fulicenter_2016.bean.CategoryGroupBean;
 import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
 import com.example.administrator.fulicenter_2016.bean.NewGoodsBean;
 import com.example.administrator.fulicenter_2016.utils.I;
@@ -45,7 +47,20 @@ public class NetDao {
                 .addParam(I.PAGE_SIZE,String.valueOf(I.PAGE_SIZE_DEFAULT))
                 .targetClass(NewGoodsBean[].class)
                 .execute(listener);
-
     }
+    public static void downloadCategoryGroup(Context context, OkHttpUtils.OnCompleteListener<CategoryGroupBean[]> listener){
+        OkHttpUtils utils=new OkHttpUtils(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
+                .targetClass(CategoryGroupBean[].class)
+                .execute(listener);
+    }
+    public static void downloadCategoryChild(Context context, int parentId,OkHttpUtils.OnCompleteListener<CategoryChildBean[]> listener){
+        OkHttpUtils utils=new OkHttpUtils(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
+                .addParam(I.CategoryChild.PARENT_ID,String.valueOf(parentId))
+                .targetClass(CategoryChildBean[].class)
+                .execute(listener);
+    }
+
 
 }

@@ -47,12 +47,12 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int i) {
-        return null;
+        return mList.get(i);
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return null;
+        return childList.get(i).get(i1);
     }
 
     @Override
@@ -112,6 +112,13 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return false;
+    }
+
+    public void initlist(ArrayList<CategoryGroupBean> groupList, ArrayList<ArrayList<CategoryChildBean>> childList) {
+        mList.clear();
+        mList.addAll(groupList);
+        this.childList.addAll(childList);
+        notifyDataSetChanged();
     }
 
     class GroupViewHolder {

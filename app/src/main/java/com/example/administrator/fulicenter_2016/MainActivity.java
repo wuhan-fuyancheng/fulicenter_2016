@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.example.administrator.fulicenter_2016.fragment.FragmentBoutique;
+import com.example.administrator.fulicenter_2016.fragment.FragmentCategory;
 import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
 
 import butterknife.BindView;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment[] fragments;
     FragmentNewGoods fragmentNewGoods;
     FragmentBoutique fragmentBoutique;
+    FragmentCategory fragmentCategory;
     @BindView(R.id.mainRB1)
     RadioButton mainRB1;
     @BindView(R.id.mainRB2)
@@ -45,12 +47,16 @@ public class MainActivity extends AppCompatActivity {
         fragments=new Fragment[5];
         fragmentNewGoods=new FragmentNewGoods();
         fragmentBoutique=new FragmentBoutique();
+        fragmentCategory=new FragmentCategory();
         fragments[0]=fragmentNewGoods;
         fragments[1]=fragmentBoutique;
+        fragments[2]=fragmentCategory;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container,fragmentNewGoods)
                 .add(R.id.fragment_container,fragmentBoutique)
+                .add(R.id.fragment_container,fragmentCategory)
+                .hide(fragmentCategory)
                 .hide(fragmentBoutique)
                 .show(fragmentNewGoods)
                 .commit();
