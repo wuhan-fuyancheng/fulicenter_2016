@@ -45,7 +45,7 @@ public class NewGoodsBean implements Serializable{
     private String colorName;
     private String colorCode;
     private String colorUrl;
-    private long addTime;
+    private String addTime;
     /**
      * id : 8514
      * goodsId : 0
@@ -220,11 +220,11 @@ public class NewGoodsBean implements Serializable{
         this.colorUrl = colorUrl;
     }
 
-    public long getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(long addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 

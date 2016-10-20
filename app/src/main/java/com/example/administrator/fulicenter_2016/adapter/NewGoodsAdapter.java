@@ -17,6 +17,8 @@ import com.example.administrator.fulicenter_2016.utils.ImageLoader;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,7 +31,47 @@ import butterknife.OnClick;
 public class NewGoodsAdapter extends RecyclerView.Adapter {
     Context context;
     List<NewGoodsBean> mlist;
+    boolean ismore;
+    int sortBy=I.SORT_BY_ADDTIME_DESC;
 
+    public int getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(int sortBy) {
+        this.sortBy = sortBy;
+        sortBy();
+        notifyDataSetChanged();
+    }
+
+    //按照动作sortBy来选择排序方式
+    private void sortBy() {
+        Collections.sort(mlist, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean left, NewGoodsBean right) {
+                int result=0;
+                switch (sortBy){
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result= (int)(Long.valueOf(left.getAddTime())-Long.valueOf(right.getAddTime()));
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result= (int)(Long.valueOf(right.getAddTime())-Long.valueOf(left.getAddTime()));
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result=getPrice(left.getCurrencyPrice())-getPrice(right.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result=getPrice(right.getCurrencyPrice())-getPrice(left.getCurrencyPrice());
+                        break;
+                }
+                return result;
+            }
+            private int getPrice(String price){
+                price=price.substring(price.indexOf("￥")+1);  //截取字符串
+                return Integer.valueOf(price);
+            }
+        });
+    }
 
     public boolean ismore() {
         return ismore;
@@ -39,8 +81,6 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
         this.ismore = ismore;
         notifyDataSetChanged();
     }
-
-    boolean ismore;
 
     public NewGoodsAdapter(Context context, List<NewGoodsBean> mlist) {
         this.context = context;
