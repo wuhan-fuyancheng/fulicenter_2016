@@ -11,8 +11,10 @@ import com.example.administrator.fulicenter_2016.activity.BoutiqueChildctivity;
 import com.example.administrator.fulicenter_2016.activity.CatetoryChildCheickedActivity;
 import com.example.administrator.fulicenter_2016.activity.GoodsDetailActivity;
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
+import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class MFGT {
@@ -45,9 +47,11 @@ public class MFGT {
         context.startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
-    public static void gotoCategoryChildChicked(Activity context,int childId){
+    public static void gotoCategoryChildChicked(Activity context, int childId, String groupname, ArrayList<CategoryChildBean> list){
         Intent intent=new Intent();
         intent.setClass(context, CatetoryChildCheickedActivity.class);
+        intent.putExtra("list",list);
+        intent.putExtra("name",groupname);
         intent.putExtra("childId",childId);
         context.startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
