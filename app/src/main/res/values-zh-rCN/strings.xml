@@ -22,4 +22,7 @@
     <string name="register_fail_exists">用户名已经存在</string>
     <string name="login">登录</string>
     <string name="login_fail">登录失败</string>
+    <string name="login_fail_unknow">该用户不存在</string>
+    <string name="login_fail_password">密码输入错误</string>
+    <string name="login_success">登录成功</string>
 </resources>
