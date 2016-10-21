@@ -9,7 +9,8 @@ public interface I {
     int ACTION_PULL_DOWN=1;
     /** 上拉刷新*/
     int ACTION_PULL_UP=2;
-
+    int REQUEST_CODE_REGISTER=1;
+    //参数（注册返回给登录的request—code
     /** 每行显示的数量columNum*/
     int COLUM_NUM = 2;
 

@@ -63,7 +63,15 @@ public class MFGT {
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
     public static void gotoRegisterActivity(Activity context){
-        startActivity(context,RegisterActivity.class);
+       /* startActivity(context,RegisterActivity.class);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);*/
+        Intent intent=new Intent();
+        intent.setClass(context,RegisterActivity.class);
+        startActivityForResult(context,intent,I.REQUEST_CODE_REGISTER);
+    }
+
+    private static void startActivityForResult(Activity context, Intent intent, int requestCode) {  //将带返回值得到跳转的方法提取出来
+        context.startActivityForResult(intent,requestCode);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 

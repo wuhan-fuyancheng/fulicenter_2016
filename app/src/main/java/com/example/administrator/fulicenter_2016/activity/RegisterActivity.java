@@ -1,6 +1,7 @@
 package com.example.administrator.fulicenter_2016.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -17,7 +18,9 @@ import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.DisplayUtils;
+import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.L;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,9 +108,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void regist() {
-        final ProgressDialog pd=new ProgressDialog(mContext);
+      /*  final ProgressDialog pd=new ProgressDialog(mContext);
         pd.setMessage("注册中");
-        pd.show();
+        pd.show();*/
         NetDao.register(mContext, name, nick, password, new OkHttpUtils.OnCompleteListener<Result>() {
             @Override
             public void onSuccess(Result result) {
@@ -115,14 +118,21 @@ public class RegisterActivity extends AppCompatActivity {
                 if (result==null){
                     CommonUtils.showShortToast("注册失败");
                 }else {
-                    CommonUtils.showLongToast("注册成功");
-                    pd.dismiss();
+                    if (!result.isRetMsg()){ //得到boolean类型的retmsg，true表示成功 false表示已存在
+                        CommonUtils.showLongToast(R.string.register_fail_exists);
+                        etUsername.requestFocus();
+                    }else {
+                        CommonUtils.showLongToast("注册成功");
+                        setResult(RESULT_OK,new Intent().putExtra(I.User.USER_NAME,name));
+                      //  pd.dismiss();
+                        MFGT.finish(mContext);
+                    }
                 }
             }
 
             @Override
             public void onError(String error) {
-                pd.dismiss();
+             //   pd.dismiss();
                 CommonUtils.showShortToast(error);
             }
         });
