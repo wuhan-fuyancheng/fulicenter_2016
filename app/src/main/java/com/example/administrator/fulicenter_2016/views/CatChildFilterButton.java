@@ -128,9 +128,9 @@ public class CatChildFilterButton extends Button {
         public View getView(int position, View layout, final ViewGroup parent) {
             ViewChildHolder holder=null;
             if(layout==null){
-                layout= View.inflate(context, R.layout.item_categorychild, null);
+                layout= View.inflate(context, R.layout.activity_catetory_child_cheicked, null);
                 holder=new ViewChildHolder();
-                holder.layoutItem=(RelativeLayout) layout.findViewById(R.id.layout_cateChild);
+                holder.layoutItem= (LinearLayout) layout.findViewById(R.id.layout_cateChildChecked);
                 holder.ivThumb=(ImageView) layout.findViewById(R.id.iv_cateChild_img);
                 holder.tvChildName=(TextView) layout.findViewById(R.id.iv_cateChild_name);
                 layout.setTag(holder);
@@ -151,7 +151,7 @@ public class CatChildFilterButton extends Button {
                     }
                     Intent intent=new Intent(mContext, CatetoryChildCheickedActivity.class);
                     intent.putExtra(I.CategoryChild.CAT_ID, child.getId());
-                    intent.putExtra("childList", Children);
+                    intent.putExtra("list", Children);
                     intent.putExtra(I.CategoryGroup.NAME, mbtnTop.getText().toString());
                     mContext.startActivity(intent);
                     ((CatetoryChildCheickedActivity)mContext).finish();
@@ -161,7 +161,7 @@ public class CatChildFilterButton extends Button {
         }
 
         class ViewChildHolder{
-            RelativeLayout layoutItem;
+            LinearLayout layoutItem;
             ImageView ivThumb;
             TextView tvChildName;
         }

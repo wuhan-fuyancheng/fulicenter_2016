@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.widget.RadioButton;
 import com.example.administrator.fulicenter_2016.fragment.FragmentBoutique;
 import com.example.administrator.fulicenter_2016.fragment.FragmentCategory;
 import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     RadioButton mainRB3;
     @BindView(R.id.mainRB4)
     RadioButton mainRB4;
-
     int index;
     int currentIndex=0;
     RadioButton[] rbs;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         initFragment();
+        setListener();
+    }
+
+    private void setListener() {
     }
 
     private void initFragment() {
@@ -86,7 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 index=3;
                 break;
             case R.id.mainRB5:
-                index=4;
+                if (FuLiCenterApplication.getInstance().getUserName()==null){
+                    MFGT.gotoLoginActivity(this);
+                }
+                else {
+                index=4;}
                 break;
         }
         setFragment();

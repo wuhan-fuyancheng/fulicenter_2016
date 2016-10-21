@@ -10,6 +10,8 @@ import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.activity.BoutiqueChildctivity;
 import com.example.administrator.fulicenter_2016.activity.CatetoryChildCheickedActivity;
 import com.example.administrator.fulicenter_2016.activity.GoodsDetailActivity;
+import com.example.administrator.fulicenter_2016.activity.LoginActivity;
+import com.example.administrator.fulicenter_2016.activity.RegisterActivity;
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
 import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
 
@@ -54,6 +56,14 @@ public class MFGT {
         intent.putExtra("name",groupname);
         intent.putExtra("childId",childId);
         context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoLoginActivity(Activity context){
+        startActivity(context,LoginActivity.class);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoRegisterActivity(Activity context){
+        startActivity(context,RegisterActivity.class);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 

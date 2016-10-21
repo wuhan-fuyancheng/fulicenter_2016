@@ -9,6 +9,17 @@ public class FuLiCenterApplication extends Application{
     public static FuLiCenterApplication application;
     private static FuLiCenterApplication instance;
 
+    //判断个人中心是否有用户
+    String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
