@@ -1,11 +1,9 @@
 package com.example.administrator.fulicenter_2016.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,7 +14,6 @@ import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
-import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.DisplayUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.L;
@@ -79,27 +76,27 @@ public class RegisterActivity extends AppCompatActivity {
         passwdtwo = etUserpasswordtwo.getText().toString().trim();
         password = etUserpassword.getText().toString().trim();
         if (TextUtils.isEmpty(name)){
-            CommonUtils.showShortToast("输入用户名为空");
+            Toast.makeText(RegisterActivity.this, "输入用户名为空", Toast.LENGTH_SHORT).show();
             etUsername.requestFocus();//请求获得焦点（光标）
             return;
         }else if (!name.matches("[a-zA-Z]\\w{5,15}")){
-            CommonUtils.showShortToast("请以英文字母开头，输入6-16位用户名");
+            Toast.makeText(RegisterActivity.this, "请以英文字母开头，输入6-16位用户名", Toast.LENGTH_SHORT).show();
             etUsername.requestFocus();
             return;
         }else if (TextUtils.isEmpty(nick)){
-            CommonUtils.showShortToast("昵称为空");
+            Toast.makeText(RegisterActivity.this, "昵称为空", Toast.LENGTH_SHORT).show();
             etUsernick.requestFocus();
             return;
         }else if (TextUtils.isEmpty(password)){
-            CommonUtils.showShortToast("密码为空");
+            Toast.makeText(RegisterActivity.this, "密码为空", Toast.LENGTH_SHORT).show();
             etUserpassword.requestFocus();
             return;
         }else if (TextUtils.isEmpty(passwdtwo)){
-            CommonUtils.showShortToast("请再次输入密码");
+            Toast.makeText(RegisterActivity.this, "请再次输入密码", Toast.LENGTH_SHORT).show();
             etUserpasswordtwo.requestFocus();
             return;
         }else if (!password.equals(passwdtwo)){
-            CommonUtils.showShortToast("两次输入密码不一致");
+            Toast.makeText(RegisterActivity.this, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
             etUserpasswordtwo.requestFocus();
             return;
         }else {
@@ -116,13 +113,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onSuccess(Result result) {
                 L.i("RegisterResut"+result);
                 if (result==null){
-                    CommonUtils.showShortToast("注册失败");
+                    Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
                 }else {
                     if (!result.isRetMsg()){ //得到boolean类型的retmsg，true表示成功 false表示已存在
-                        CommonUtils.showLongToast(R.string.register_fail_exists);
+                        Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
                         etUsername.requestFocus();
                     }else {
-                        CommonUtils.showLongToast("注册成功");
+                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK,new Intent().putExtra(I.User.USER_NAME,name));
                       //  pd.dismiss();
                         MFGT.finish(mContext);
@@ -133,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
              //   pd.dismiss();
-                CommonUtils.showShortToast(error);
+                Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
             }
         });
     }

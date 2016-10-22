@@ -70,6 +70,10 @@ public class CatetoryChildCheickedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catetory_child_cheicked);
         ButterKnife.bind(this);
+       // groupname=getIntent().getStringExtra("namee");
+       // childlist= (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra("listt");
+       // childId=getIntent().getIntExtra("childId",0);
+
 
         groupname=getIntent().getStringExtra("name");
         childlist= (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra("list");

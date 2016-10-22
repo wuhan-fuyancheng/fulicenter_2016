@@ -59,7 +59,7 @@ public class FragmentCategory extends Fragment {
     }
 
     private void initView() {
-        elv.setGroupIndicator(null);  //设置箭头
+        elv.setGroupIndicator(null);//设置箭头
         elv.setAdapter(mAdapter);
     }
 

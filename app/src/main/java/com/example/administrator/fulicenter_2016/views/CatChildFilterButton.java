@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -57,11 +58,11 @@ public class CatChildFilterButton extends Button {
     private void initPopupWindow() {
         mPopupWindow=new PopupWindow();
         mPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-        if(mgvCategory.getAdapter().getCount()<16){
+        //if(mgvCategory.getAdapter().getCount()<16){
             mPopupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        }else{
-            mPopupWindow.setHeight(ConvertUtils.px2dp(mContext, 200));
-        }
+     //   }else{
+      //      mPopupWindow.setHeight(ConvertUtils.px2dp(mContext, 200));
+    //    }
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0xbb000000));
@@ -83,9 +84,9 @@ public class CatChildFilterButton extends Button {
     private void setBtnTopArrow() {
         Drawable right=null;
         if(mExpandOff){
-            right=mContext.getResources().getDrawable(R.drawable.arrow2_down);
-        }else{
             right=mContext.getResources().getDrawable(R.drawable.arrow2_up);
+        }else{
+            right=mContext.getResources().getDrawable(R.drawable.arrow2_down);
         }
         right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
         mbtnTop.setCompoundDrawablesWithIntrinsicBounds(null, null, right, null);
@@ -128,11 +129,11 @@ public class CatChildFilterButton extends Button {
         public View getView(int position, View layout, final ViewGroup parent) {
             ViewChildHolder holder=null;
             if(layout==null){
-                layout= View.inflate(context, R.layout.activity_catetory_child_cheicked, null);
+                layout= View.inflate(context, R.layout.item_cat_filter, null);
                 holder=new ViewChildHolder();
-                holder.layoutItem= (LinearLayout) layout.findViewById(R.id.layout_cateChildChecked);
-                holder.ivThumb=(ImageView) layout.findViewById(R.id.iv_cateChild_img);
-                holder.tvChildName=(TextView) layout.findViewById(R.id.iv_cateChild_name);
+                holder.layoutItem= (RelativeLayout) layout.findViewById(R.id.layout_category_child);
+                holder.ivThumb=(ImageView) layout.findViewById(R.id.ivCategoryChildThumb);
+                holder.tvChildName=(TextView) layout.findViewById(R.id.tvCategoryChildName);
                 layout.setTag(holder);
             }else{
                 holder=(ViewChildHolder) layout.getTag();
@@ -150,9 +151,11 @@ public class CatChildFilterButton extends Button {
                         mPopupWindow.dismiss();
                     }
                     Intent intent=new Intent(mContext, CatetoryChildCheickedActivity.class);
-                    intent.putExtra(I.CategoryChild.CAT_ID, child.getId());
+                    intent.putExtra("childId", child.getId());
+                    Log.i("main",child.getId()+"");
                     intent.putExtra("list", Children);
-                    intent.putExtra(I.CategoryGroup.NAME, mbtnTop.getText().toString());
+                    intent.putExtra("name", mbtnTop.getText().toString());
+                    Log.i("main",mbtnTop.getText().toString());
                     mContext.startActivity(intent);
                     ((CatetoryChildCheickedActivity)mContext).finish();
                 }
@@ -161,7 +164,7 @@ public class CatChildFilterButton extends Button {
         }
 
         class ViewChildHolder{
-            LinearLayout layoutItem;
+            RelativeLayout layoutItem;
             ImageView ivThumb;
             TextView tvChildName;
         }
