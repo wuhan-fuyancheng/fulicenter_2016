@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.User;
+import com.example.administrator.fulicenter_2016.dao.SharePrefrenceUtils;
 import com.example.administrator.fulicenter_2016.dao.UserDao;
 import com.example.administrator.fulicenter_2016.utils.L;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
@@ -29,10 +30,15 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 User user= FuLiCenterApplication.getUser();
-                if (user==null){
+                String username= SharePrefrenceUtils.getInstence(mContext).getUser();
+                L.i("Splash_username"+username);
+                if (user==null&&username!=null){
                     UserDao dao=new UserDao(mContext);
-                    user=dao.getUser("fuyancheng");
+                    user=dao.getUser(username);
                     Log.i("main","spla_user="+user);
+                    if (user!=null){
+                        FuLiCenterApplication.setUser(user);
+                    }
                 }
                 long start= System.currentTimeMillis();
                 long costTime=System.currentTimeMillis()-start;
