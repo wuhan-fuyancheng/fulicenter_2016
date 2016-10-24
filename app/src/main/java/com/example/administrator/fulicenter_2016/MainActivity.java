@@ -1,10 +1,12 @@
 package com.example.administrator.fulicenter_2016;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -12,6 +14,8 @@ import com.example.administrator.fulicenter_2016.fragment.FragmentBoutique;
 import com.example.administrator.fulicenter_2016.fragment.FragmentCategory;
 import com.example.administrator.fulicenter_2016.fragment.FragmentMe;
 import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
+import com.example.administrator.fulicenter_2016.utils.I;
+import com.example.administrator.fulicenter_2016.utils.L;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import butterknife.BindView;
@@ -65,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.fragment_container,fragmentNewGoods)
                 .add(R.id.fragment_container,fragmentBoutique)
                 .add(R.id.fragment_container,fragmentCategory)
-                .add(R.id.fragment_container,mFragmentMe)
-                .hide(mFragmentMe)
                 .hide(fragmentCategory)
                 .hide(fragmentBoutique)
                 .show(fragmentNewGoods)
@@ -129,6 +131,23 @@ public class MainActivity extends AppCompatActivity {
                 rbs[i].setChecked(false);
             }
 
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("main","onresume");
+        setFragment();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.i("main","onActivityResult");
+        if(requestCode== I.REQUEST_CODE_LOGIN&&FuLiCenterApplication.getUser()!=null){
+            index=4;
         }
     }
 }
