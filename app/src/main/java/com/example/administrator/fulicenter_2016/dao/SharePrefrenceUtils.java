@@ -2,6 +2,7 @@ package com.example.administrator.fulicenter_2016.dao;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -24,6 +25,7 @@ public class SharePrefrenceUtils {
     }
     public void saveUser(String username){
         mEditor.putString(SHARE_KEY_USER_NAME,username);
+        Log.i("main","shareprefrenceUtils_"+username);
         mEditor.commit();
     }
     public String getUser(){

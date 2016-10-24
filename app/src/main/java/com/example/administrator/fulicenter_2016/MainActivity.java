@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 
 import com.example.administrator.fulicenter_2016.fragment.FragmentBoutique;
 import com.example.administrator.fulicenter_2016.fragment.FragmentCategory;
+import com.example.administrator.fulicenter_2016.fragment.FragmentMe;
 import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentNewGoods fragmentNewGoods;
     FragmentBoutique fragmentBoutique;
     FragmentCategory fragmentCategory;
+    FragmentMe mFragmentMe;
     @BindView(R.id.mainRB1)
     RadioButton mainRB1;
     @BindView(R.id.mainRB2)
@@ -53,14 +55,18 @@ public class MainActivity extends AppCompatActivity {
         fragmentNewGoods=new FragmentNewGoods();
         fragmentBoutique=new FragmentBoutique();
         fragmentCategory=new FragmentCategory();
+        mFragmentMe=new FragmentMe();
         fragments[0]=fragmentNewGoods;
         fragments[1]=fragmentBoutique;
         fragments[2]=fragmentCategory;
+        fragments[4]=mFragmentMe;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container,fragmentNewGoods)
                 .add(R.id.fragment_container,fragmentBoutique)
                 .add(R.id.fragment_container,fragmentCategory)
+                .add(R.id.fragment_container,mFragmentMe)
+                .hide(mFragmentMe)
                 .hide(fragmentCategory)
                 .hide(fragmentBoutique)
                 .show(fragmentNewGoods)
@@ -91,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 index=3;
                 break;
             case R.id.mainRB5:
-                if (FuLiCenterApplication.getInstance().getUserName()==null){
+                if (FuLiCenterApplication.getInstance().getUser()==null){
                     MFGT.gotoLoginActivity(this);
                 }
                 else {

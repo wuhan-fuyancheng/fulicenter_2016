@@ -15,6 +15,7 @@ import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.bean.User;
+import com.example.administrator.fulicenter_2016.dao.SharePrefrenceUtils;
 import com.example.administrator.fulicenter_2016.dao.UserDao;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
@@ -109,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         User user= (User) resultt.getRetData();
                         UserDao dao=new UserDao(mContext);
                         boolean isSuccess =dao.saveUser(user);
+                        SharePrefrenceUtils.getInstence(mContext).saveUser(user.getMuserName());
                         if (isSuccess){
                             FuLiCenterApplication.setUser(user);
                             MFGT.finish(mContext);
