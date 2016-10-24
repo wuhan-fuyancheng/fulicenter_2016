@@ -28,7 +28,7 @@ public class DBmanager {
     public synchronized boolean saveUser(User user){
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put(UserDao.USER_TABLE_NAME,user.getMuserName());
+        values.put(UserDao.USER_COLUMN_NAME,user.getMuserName());
         values.put(UserDao.USER_COLUMN_NICK,user.getMuserNick());
         values.put(UserDao.USER_COLUMN_AVATAR_ID,user.getMavatarId());
         values.put(UserDao.USER_COLUMN_AVATAR_TYPE,user.getMavatarType());
@@ -42,7 +42,7 @@ public class DBmanager {
     }
     public synchronized User getUser(String username){
         SQLiteDatabase db=dbHelper.getReadableDatabase();
-        String sql="select*from "+UserDao.USER_TABLE_NAME+"where "
+        String sql="select*from "+UserDao.USER_TABLE_NAME+" where "
                 +UserDao.USER_COLUMN_NAME+" =?";
         User user=null;
         Cursor cursor=db.rawQuery(sql,new String[]{username});

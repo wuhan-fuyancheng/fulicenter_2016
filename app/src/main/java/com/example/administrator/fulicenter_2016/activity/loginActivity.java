@@ -11,9 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.bean.User;
+import com.example.administrator.fulicenter_2016.dao.UserDao;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.CommonUtils;
@@ -104,7 +106,15 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     if (resultt.isRetMsg()){
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_LONG).show();
-                        // User user= (User) resultt.getRetData();
+                        User user= (User) resultt.getRetData();
+                        UserDao dao=new UserDao(mContext);
+                        boolean isSuccess =dao.saveUser(user);
+                        if (isSuccess){
+                            FuLiCenterApplication.setUser(user);
+                            MFGT.finish(mContext);
+                        }else {
+                            Toast.makeText(LoginActivity.this, "数据库异常", Toast.LENGTH_SHORT).show();
+                        }
                     }else {
                         if (resultt.getRetCode()==I.MSG_LOGIN_UNKNOW_USER){
                             Toast.makeText(LoginActivity.this, "用户名不存在", Toast.LENGTH_LONG).show();
