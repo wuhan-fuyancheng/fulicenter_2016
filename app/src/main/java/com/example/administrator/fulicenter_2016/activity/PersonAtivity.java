@@ -1,21 +1,35 @@
 package com.example.administrator.fulicenter_2016.activity;
 
+import android.content.DialogInterface;
+import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.Layout;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.R;
+import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.bean.User;
 import com.example.administrator.fulicenter_2016.dao.SharePrefrenceUtils;
+import com.example.administrator.fulicenter_2016.dao.UserDao;
+import com.example.administrator.fulicenter_2016.net.NetDao;
+import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.DisplayUtils;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
+import com.example.administrator.fulicenter_2016.utils.ResultUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +59,7 @@ public class PersonAtivity extends AppCompatActivity {
     ImageView imMeUseravatarimg;
 
     User user = FuLiCenterApplication.getUser();
-
+    String name=user.getMuserName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +82,69 @@ public class PersonAtivity extends AppCompatActivity {
             case R.id.layout_me_userimg:
                 break;
             case R.id.layout_me_username:
+                Toast.makeText(PersonAtivity.this, "用户名不可以被修改", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.layout_me_usernick:
+                LayoutInflater factory= LayoutInflater.from(PersonAtivity.this);
+                final View view1=factory.inflate(R.layout.item_editdialog,null);
+                final EditText editText= (EditText) view1.findViewById(R.id.et_dialog);
+                editText.setText(FuLiCenterApplication.getUser().getMuserNick());
+                new AlertDialog.Builder(PersonAtivity.this)
+                        .setTitle("修改昵称")
+                        .setView(view1)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                final String nick=editText.getText().toString();
+                                if (nick.isEmpty()){
+                                    Toast.makeText(PersonAtivity.this, "请输入昵称", Toast.LENGTH_SHORT).show();
+                                    editText.requestFocus();
+                                }else if (nick.equals(FuLiCenterApplication.getUser().getMuserNick())){
+                                    Toast.makeText(PersonAtivity.this, "请不要输入同样的昵称", Toast.LENGTH_SHORT).show();
+                                    editText.requestFocus();
+                                }else {
+                                    NetDao.updateNick(mContext, nick, name, new OkHttpUtils.OnCompleteListener<String>() {
+
+                                        @Override
+                                        public void onSuccess(String result) {
+                                            Log.i("main", result);
+                                            if (result == null) {
+                                                Toast.makeText(PersonAtivity.this, "修改昵称失败", Toast.LENGTH_SHORT).show();
+                                                editText.requestFocus();
+                                            }
+                                            Result result1 = ResultUtils.getResultFromJson(result, User.class);
+                                            User userr = (User) result1.getRetData();
+                                            UserDao dao = new UserDao(mContext);
+                                            boolean isSuccess = dao.saveUser(userr);
+                                            SharePrefrenceUtils.getInstence(mContext).saveUser(userr.getMuserName());
+                                            if (isSuccess) {
+                                                FuLiCenterApplication.setUser(userr);
+                                                Toast.makeText(PersonAtivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                                tvMeUsernick.setText(userr.getMuserNick());
+                                            } else {
+                                                Toast.makeText(PersonAtivity.this, "数据库异常", Toast.LENGTH_SHORT).show();
+                                            }
+                                            Log.i("main", "修改后的" + userr.getMuserNick());
+                                            //tvMeUsernick.setText(user.getMuserNick());
+                                        }
+
+                                        @Override
+                                        public void onError(String error) {
+                                            Toast.makeText(PersonAtivity.this, error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }).setNegativeButton("取消",null).create().show();
+
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("main","PersonActivityOnResume");
     }
 
     @OnClick(R.id.me_quit)
