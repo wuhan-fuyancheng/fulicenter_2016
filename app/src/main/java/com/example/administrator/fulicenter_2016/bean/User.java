@@ -1,5 +1,7 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import com.example.administrator.fulicenter_2016.utils.I;
+
 import java.io.Serializable;
 
 /**
@@ -58,7 +60,7 @@ public class User implements Serializable{
     }
 
     public String getMavatarSuffix() {
-        return mavatarSuffix;
+        return mavatarSuffix!=null?mavatarSuffix: I.AVATAR_SUFFIX_JPG;
     }
 
     public void setMavatarSuffix(String mavatarSuffix) {

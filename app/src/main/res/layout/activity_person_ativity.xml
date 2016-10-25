@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_gray_light"
+    android:id="@+id/layout_upload_avatar"
     >
     <include layout="@layout/common_head_white_title"/>
     <RelativeLayout

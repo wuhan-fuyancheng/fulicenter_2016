@@ -1,6 +1,8 @@
 package com.example.administrator.fulicenter_2016.activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -27,9 +29,14 @@ import com.example.administrator.fulicenter_2016.dao.UserDao;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.DisplayUtils;
+import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
+import com.example.administrator.fulicenter_2016.utils.L;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
+import com.example.administrator.fulicenter_2016.utils.OnSetAvatarListener;
 import com.example.administrator.fulicenter_2016.utils.ResultUtils;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +67,8 @@ public class PersonAtivity extends AppCompatActivity {
 
     User user = FuLiCenterApplication.getUser();
     String name=user.getMuserName();
+
+    OnSetAvatarListener mOnSetAvatarListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +89,8 @@ public class PersonAtivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_me_userimg:
+                mOnSetAvatarListener=new OnSetAvatarListener(mContext,R.id.layout_upload_avatar,
+                user.getMuserName(), I.AVATAR_TYPE_USER_PATH);
                 break;
             case R.id.layout_me_username:
                 Toast.makeText(PersonAtivity.this, "用户名不可以被修改", Toast.LENGTH_SHORT).show();
@@ -145,6 +156,54 @@ public class PersonAtivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("main","PersonActivityOnResume");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("main","onActivityResult,requestCode="+requestCode);
+        if (resultCode!=RESULT_OK){
+            return;
+        }
+        mOnSetAvatarListener.setAvatar(requestCode,data,imMeUseravatarimg);
+        if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO){
+            updateAvatar();
+        }
+    }
+
+    private void updateAvatar() {
+        final ProgressDialog pd=new ProgressDialog(mContext);
+        pd.setMessage("图像上传中");
+        pd.show();
+        File file=new File(OnSetAvatarListener.getAvatarPath(mContext,user.getMavatarPath()+"/"
+        +user.getMuserName()+user.getMavatarSuffix()));
+        Log.i("main",file.getAbsolutePath());
+        NetDao.updateAvatar(mContext, user.getMuserName(), file, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.i("main","avatarimg_result="+result);
+                Result result1=ResultUtils.getResultFromJson(result,user.getClass());
+                if (result1==null){
+                    Toast.makeText(PersonAtivity.this, "头像上传失败", Toast.LENGTH_SHORT).show();
+                }else{
+                    User u= (User) result1.getRetData();
+                    if (result1.isRetMsg()){
+                        FuLiCenterApplication.setUser(u);
+                        Toast.makeText(PersonAtivity.this, "头像更新成功", Toast.LENGTH_SHORT).show();
+                        ImageLoader.setAvatar(ImageLoader.getAvatarUrl(u),mContext,imMeUseravatarimg);
+                    }else {
+                        Toast.makeText(PersonAtivity.this, "头像上传失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                pd.dismiss();
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
     }
 
     @OnClick(R.id.me_quit)

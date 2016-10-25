@@ -12,6 +12,8 @@ import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.MD5;
 
+import java.io.File;
+
 public class NetDao {
     public static void downloadNewGoods(Context context, int pageId,
                                         OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener){
@@ -95,6 +97,16 @@ public class NetDao {
                 .addParam(I.User.NICK,nick)
                 .addParam(I.User.USER_NAME,username)
                 .targetClass(String.class)
+                .execute(listener);
+    }
+    public static void updateAvatar(Context context, String name, File file, OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID,name)
+                .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
+                .addFile2(file)
+                .targetClass(String.class)
+                .post()
                 .execute(listener);
     }
 
