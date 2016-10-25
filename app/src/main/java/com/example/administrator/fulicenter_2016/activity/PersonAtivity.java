@@ -208,11 +208,19 @@ public class PersonAtivity extends AppCompatActivity {
 
     @OnClick(R.id.me_quit)
     public void onQuickClick() {
-        if (user!=null){
-            SharePrefrenceUtils.getInstence(mContext).removeUser();
-            FuLiCenterApplication.setUser(null);
-            MFGT.gotoLoginActivity(mContext);
-        }
-        MFGT.finish(this);
+        new AlertDialog.Builder(PersonAtivity.this)
+                .setTitle("退出登录")
+                .setPositiveButton("退出", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (user!=null){
+                            SharePrefrenceUtils.getInstence(mContext).removeUser();
+                            FuLiCenterApplication.setUser(null);
+                            MFGT.gotoLoginActivity(mContext);
+                        }
+                        MFGT.finish(mContext);
+                    }
+                }).setNegativeButton("取消",null).create().show();
+
     }
 }

@@ -4,6 +4,7 @@ package com.example.administrator.fulicenter_2016.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.administrator.fulicenter_2016.bean.CategoryGroupBean;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.ConvertUtils;
+import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.L;
 
 import java.util.ArrayList;
@@ -36,7 +38,9 @@ public class FragmentCategory extends Fragment {
     ArrayList<ArrayList<CategoryChildBean>> childList;
     Context context;
     int childId;
-    int groupCount=0;
+    int groupCount = 0;
+    @BindView(R.id.srl_category)
+    SwipeRefreshLayout srlCategory;
 
     public FragmentCategory() {
         // Required empty public constructor
@@ -48,14 +52,25 @@ public class FragmentCategory extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_category, container, false);
-        context=getActivity();
+        context = getActivity();
         ButterKnife.bind(this, view);
-        groupList=new ArrayList<>();
-        childList=new ArrayList<>();
-        mAdapter=new CategoryAdapter(context,groupList,childList);
+        groupList = new ArrayList<>();
+        childList = new ArrayList<>();
+        mAdapter = new CategoryAdapter(context, groupList, childList);
         initData();
         initView();
+        setListener();
         return view;
+    }
+
+    private void setListener() {
+        srlCategory.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srlCategory.setRefreshing(true);
+                downloadCategoryGoup(I.ACTION_PULL_DOWN);
+            }
+        });
     }
 
     private void initView() {
@@ -64,20 +79,33 @@ public class FragmentCategory extends Fragment {
     }
 
     private void initData() {
-        downloadCategoryGoup();
+        downloadCategoryGoup(I.ACTION_DOWNLOAD);
     }
 
-    private void downloadCategoryGoup() {
+    private void downloadCategoryGoup(final int action) {
         NetDao.downloadCategoryGroup(context, new OkHttpUtils.OnCompleteListener<CategoryGroupBean[]>() {
             @Override
             public void onSuccess(CategoryGroupBean[] result) {
-                if (result!=null&&result.length>0){
-                    ArrayList<CategoryGroupBean> list= ConvertUtils.array2List(result);
-                    groupList.addAll(list);
-                    for (int i=0;i<list.size();i++){
-                        childList.add(new ArrayList<CategoryChildBean>());
-                        childId=list.get(i).getId();
-                        downloadCategoryChild(childId,i);
+                srlCategory.setRefreshing(false);
+                if (result != null && result.length > 0) {
+                    ArrayList<CategoryGroupBean> list = ConvertUtils.array2List(result);
+                    if (action==I.ACTION_DOWNLOAD) {
+                        groupList.addAll(list);
+                        for (int i = 0; i < list.size(); i++) {
+                            childList.add(new ArrayList<CategoryChildBean>());
+                            childId = list.get(i).getId();
+                            downloadCategoryChild(childId, i);
+                        }
+                    }
+                    if (action==I.ACTION_PULL_DOWN){
+                        if (groupList.size()!=list.size()) {
+                            groupList.addAll(list);
+                            for (int i = 0; i < list.size(); i++) {
+                                childList.add(new ArrayList<CategoryChildBean>());
+                                childId = list.get(i).getId();
+                                downloadCategoryChild(childId, i);
+                            }
+                        }
                     }
                 }
             }
@@ -95,14 +123,14 @@ public class FragmentCategory extends Fragment {
 
             public void onSuccess(CategoryChildBean[] result) {
                 groupCount++;
-                L.i("downloadChild,result="+result.toString());
-                if (result!=null&&result.length>0){
-                    ArrayList<CategoryChildBean>  childlistt=ConvertUtils.array2List(result);
-                    childList.set(index,childlistt);
-                    L.i("childlist="+childlistt.size());
+                L.i("downloadChild,result=" + result.toString());
+                if (result != null && result.length > 0) {
+                    ArrayList<CategoryChildBean> childlistt = ConvertUtils.array2List(result);
+                    childList.set(index, childlistt);
+                    L.i("childlist=" + childlistt.size());
                 }
-                if (groupCount==groupList.size()){
-                    mAdapter.initlist(groupList,childList);
+                if (groupCount == groupList.size()) {
+                    mAdapter.initlist(groupList, childList);
                 }
 
             }
