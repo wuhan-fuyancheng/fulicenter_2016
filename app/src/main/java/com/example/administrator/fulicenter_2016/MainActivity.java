@@ -1,6 +1,5 @@
 package com.example.administrator.fulicenter_2016;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import com.example.administrator.fulicenter_2016.fragment.FragmentCategory;
 import com.example.administrator.fulicenter_2016.fragment.FragmentMe;
 import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
 import com.example.administrator.fulicenter_2016.utils.I;
-import com.example.administrator.fulicenter_2016.utils.L;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import butterknife.BindView;

@@ -11,6 +11,7 @@ import com.example.administrator.fulicenter_2016.activity.BoutiqueChildctivity;
 import com.example.administrator.fulicenter_2016.activity.CatetoryChildCheickedActivity;
 import com.example.administrator.fulicenter_2016.activity.GoodsDetailActivity;
 import com.example.administrator.fulicenter_2016.activity.LoginActivity;
+import com.example.administrator.fulicenter_2016.activity.PersonAtivity;
 import com.example.administrator.fulicenter_2016.activity.RegisterActivity;
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
 import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class MFGT {
     public static void finish(Activity activity){
         activity.finish();
-        activity.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+        activity.overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
     }
     public static void gotoMainActivity(Activity context){
         startActivity(context, MainActivity.class);
@@ -75,6 +76,11 @@ public class MFGT {
     private static void startActivityForResult(Activity context, Intent intent, int requestCode) {  //将带返回值得到跳转的方法提取出来
         context.startActivityForResult(intent,requestCode);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoPersonActivity(Activity context){
+        Intent intent=new Intent();
+        intent.setClass(context,PersonAtivity.class);
+        context.startActivity(intent);
     }
 
 
