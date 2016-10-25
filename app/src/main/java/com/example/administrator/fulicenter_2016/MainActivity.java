@@ -136,13 +136,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("main","onresume");
+        if (index==4&&FuLiCenterApplication.getUser()==null){
+            index=0;
+        }
         setFragment();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("main","mainOnRestart()");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         Log.i("main","onActivityResult");
         if(requestCode== I.REQUEST_CODE_LOGIN&&FuLiCenterApplication.getUser()!=null){
             index=4;

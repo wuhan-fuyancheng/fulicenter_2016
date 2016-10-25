@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btLogin;
     @BindView(R.id.bt_register)
     Button btRegister;
-    @BindView(R.id.backClickArea)
-    LinearLayout backClickArea;
     @BindView(R.id.tv_common_title)
     TextView tvCommonTitle;
 
@@ -62,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        DisplayUtils.initBack(this);
+        DisplayUtils.initBackWithTitle(mContext,"账户登录");
     }
 
     @OnClick(R.id.bt_register)
@@ -95,9 +94,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String name,String password) {
+        final ProgressDialog pd=new ProgressDialog(mContext);
+        pd.setMessage("登录中");
+        pd.show();
         NetDao.login(mContext, name, password, new OkHttpUtils.OnCompleteListener<String>() {
             @Override
             public void onSuccess(String result) {
+
                 Result resultt= ResultUtils.getResultFromJson(result,User.class);
                 Log.i("main","loginresult："+result);
                Log.i("main",resultt.toString());
@@ -129,10 +132,13 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 }
+                pd.dismiss();
             }
 
             @Override
             public void onError(String error) {
+
+                pd.dismiss();
                 CommonUtils.showShortToast(error);
             }
         });

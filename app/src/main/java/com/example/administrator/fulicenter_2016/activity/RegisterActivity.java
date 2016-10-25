@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -105,9 +106,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void regist() {
-      /*  final ProgressDialog pd=new ProgressDialog(mContext);
+        final ProgressDialog pd=new ProgressDialog(mContext);
         pd.setMessage("注册中");
-        pd.show();*/
+        pd.show();
         NetDao.register(mContext, name, nick, password, new OkHttpUtils.OnCompleteListener<Result>() {
             @Override
             public void onSuccess(Result result) {
@@ -121,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK,new Intent().putExtra(I.User.USER_NAME,name));
-                      //  pd.dismiss();
+                        pd.dismiss();
                         MFGT.finish(mContext);
                     }
                 }
@@ -129,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onError(String error) {
-             //   pd.dismiss();
+              pd.dismiss();
                 Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
             }
         });

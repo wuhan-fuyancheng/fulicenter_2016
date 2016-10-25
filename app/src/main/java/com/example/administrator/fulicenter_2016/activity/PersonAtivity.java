@@ -81,6 +81,6 @@ public class PersonAtivity extends AppCompatActivity {
             FuLiCenterApplication.setUser(null);
             MFGT.gotoLoginActivity(mContext);
         }
-        finish();
+        MFGT.finish(this);
     }
 }
