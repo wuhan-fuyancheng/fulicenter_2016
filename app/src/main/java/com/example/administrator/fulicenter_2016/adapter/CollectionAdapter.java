@@ -1,16 +1,29 @@
 package com.example.administrator.fulicenter_2016.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
+import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
+import com.example.administrator.fulicenter_2016.activity.CollectionActivity;
+import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
 import com.example.administrator.fulicenter_2016.bean.CollectBean;
+import com.example.administrator.fulicenter_2016.bean.MessageBean;
+import com.example.administrator.fulicenter_2016.net.NetDao;
+import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
+import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import java.util.ArrayList;
 
@@ -25,6 +38,7 @@ public class CollectionAdapter extends RecyclerView.Adapter {
     Context mContext;
     ArrayList<CollectBean> mList;
     boolean ismore;
+
 
     public boolean ismore() {
         return ismore;
@@ -57,10 +71,17 @@ public class CollectionAdapter extends RecyclerView.Adapter {
             vh.tvFooter.setText(footsettext());
         } else {
             CollectionGoodsHolder vh = (CollectionGoodsHolder) holder;
-            CollectBean goods = mList.get(position);
+            final CollectBean goods = mList.get(position);
             ImageLoader.downloadImg(mContext, vh.ivCollectGoods, goods.getGoodsThumb());
             vh.tvCollectionItemName.setText(goods.getGoodsName());
-            //  vh.ivCollectGoods.setTag(goods.getGoodsId());
+
+            vh.layoutCollectionGoods.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MFGT.gotoGoodsDetailsActivity((Activity) mContext,goods.getGoodsId());
+                }
+            });
+            vh.layoutCollectionGoods.setTag(goods);
         }
     }
 
@@ -106,7 +127,9 @@ public class CollectionAdapter extends RecyclerView.Adapter {
     }
 
 
-    static class CollectionGoodsHolder extends RecyclerView.ViewHolder {
+    class CollectionGoodsHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.layout_collectionGoods)
+        RelativeLayout layoutCollectionGoods;
         @BindView(R.id.iv_collect_goods)
         ImageView ivCollectGoods;
         @BindView(R.id.iv_collection_delete)
@@ -118,8 +141,34 @@ public class CollectionAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
+        @OnClick(R.id.iv_collection_delete)
+        public void onClick() {
+            String username= FuLiCenterApplication.getUser().getMuserName();
+            final CollectBean goods= (CollectBean) layoutCollectionGoods.getTag();
+            NetDao.deleteCollect(mContext, username, goods.getGoodsId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result!=null&&result.isSuccess()){
+                        mList.remove(goods);
+                        notifyDataSetChanged();
+                    }else {
+                        CommonUtils.showLongToast(result!=null?result.getMsg():"收藏失败");
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.i("main","collectdelete_"+error);
+                }
+            });
+        }
+
+
     }
-    @OnClick(R.id.layout_collectionGoods)
-    public void onlayoutCollectClick() {
-    }
+
+
+
+
+
+
 }

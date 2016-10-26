@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,9 +14,7 @@ import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
 import com.example.administrator.fulicenter_2016.bean.PropertiesBean;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
-import com.example.administrator.fulicenter_2016.utils.CommonUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
-import com.example.administrator.fulicenter_2016.utils.L;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 import com.example.administrator.fulicenter_2016.views.FlowIndicator;
 import com.example.administrator.fulicenter_2016.views.SlideAutoLoopView;
@@ -44,6 +43,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     GoodsDetailActivity mContext;
     @BindView(R.id.backClickArea)
     LinearLayout backClickArea;
+    @BindView(R.id.iv_good_coll)
+    ImageView ivGoodColl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
-        Log.i("main", goodsId + "");
+        Log.i("main", goodsId + "GoodsDetailActivity");
         if (goodsId == 0) {
             finish();
         }
@@ -69,7 +70,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-                if (result!=null) {
+                if (result != null) {
                     showGoodDetails(result);
                 }
             }
@@ -109,5 +110,9 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @OnClick(R.id.backClickArea)
     public void onBackClick() {
         MFGT.finish(this);
+    }
+
+    @OnClick(R.id.iv_good_coll)
+    public void onClick() {
     }
 }
