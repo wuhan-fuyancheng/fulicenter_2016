@@ -14,6 +14,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.Scroller;
 
+import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
 
 import java.lang.reflect.Field;
@@ -157,7 +158,7 @@ public class SlideAutoLoopView extends ViewPager {
             iv.setLayoutParams(params);
             String imgUrl=albumImgUrl[position%count];
             String imgName="images/"+imgUrl;
-//            String url= I.DOWNLOAD_ALBUM_IMG_URL+imgUrl;
+  //          String url= I.DOWNLOAD_ALBUM_IMG_URL+imgUrl;
 //            Bitmap bitmap = imageLoader.displayImage(url, imgName, Utils.px2dp(context, 260), Utils.px2dp(context, 200), new OnImageLoadListener() {
 //                @Override
 //                public void onSuccess(String path, Bitmap bitmap) {

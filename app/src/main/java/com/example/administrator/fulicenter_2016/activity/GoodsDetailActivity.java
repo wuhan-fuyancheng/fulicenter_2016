@@ -19,6 +19,7 @@ import com.example.administrator.fulicenter_2016.bean.User;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
+import com.example.administrator.fulicenter_2016.utils.ImageLoader;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 import com.example.administrator.fulicenter_2016.views.FlowIndicator;
 import com.example.administrator.fulicenter_2016.views.SlideAutoLoopView;
@@ -28,6 +29,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
 
 public class GoodsDetailActivity extends AppCompatActivity {
     int goodsId;
@@ -50,8 +55,11 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @BindView(R.id.iv_good_coll)
     ImageView ivGoodColl;
 
-    User user=FuLiCenterApplication.getUser();
+    GoodsDetailsBean goods;
+    User user = FuLiCenterApplication.getUser();
     boolean isCollect;
+    @BindView(R.id.iv_good_share)
+    ImageView ivGoodShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
+        ShareSDK.initSDK(mContext,"185d0d0a9eb8a");
     }
 
     private void setListener() {
@@ -79,6 +88,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             public void onSuccess(GoodsDetailsBean result) {
                 if (result != null) {
                     showGoodDetails(result);
+                    goods=result;
                 }
             }
 
@@ -122,20 +132,20 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.iv_good_coll)
     public void onCollectClick() {
-        if (user==null){
+        if (user == null) {
             MFGT.gotoLoginActivity(mContext);
-        }else {
+        } else {
             if (!isCollect) {
                 addCollectgoods();
-            }else {
+            } else {
                 NetDao.deleteCollect(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
-                        if (result!=null&&result.isSuccess()){
-                            isCollect=false;
+                        if (result != null && result.isSuccess()) {
+                            isCollect = false;
                             Toast.makeText(GoodsDetailActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-                        }else {
-                            isCollect=true;
+                        } else {
+                            isCollect = true;
                             Toast.makeText(GoodsDetailActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                         updateGoodsCollectStatus();
@@ -143,7 +153,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String error) {
-                        isCollect=true;
+                        isCollect = true;
                         updateGoodsCollectStatus();
                     }
                 });
@@ -152,7 +162,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private void addCollectgoods() {
-        if (user!=null) {
+        if (user != null) {
             NetDao.addCollectgoods(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
@@ -180,35 +190,69 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        user=FuLiCenterApplication.getUser();
+        user = FuLiCenterApplication.getUser();
         isCollected();
     }
-    private void isCollected(){
-        if (user!=null){
+
+    private void isCollected() {
+        if (user != null) {
             NetDao.updateCollected(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
-                    if (result!=null&&result.isSuccess()){
-                        isCollect=true;
-                    }else {
-                        isCollect=false;
+                    if (result != null && result.isSuccess()) {
+                        isCollect = true;
+                    } else {
+                        isCollect = false;
                     }
                     updateGoodsCollectStatus();
                 }
 
                 @Override
                 public void onError(String error) {
-                    isCollect=false;
+                    isCollect = false;
                     updateGoodsCollectStatus();
                 }
             });
         }
     }
-    private void updateGoodsCollectStatus(){
-        if (isCollect){
+
+    private void updateGoodsCollectStatus() {
+        if (isCollect) {
             ivGoodColl.setImageResource(R.mipmap.bg_collect_out);
-        }else {
+        } else {
             ivGoodColl.setImageResource(R.mipmap.bg_collect_in);
         }
+    }
+
+    @OnClick(R.id.iv_good_share)
+    public void onShareClick() {
+        Toast.makeText(GoodsDetailActivity.this, "123", Toast.LENGTH_SHORT).show();
+        if (goods!=null) {
+            showShare();
+        }
+    }
+
+    private void showShare() {
+        ShareSDK.initSDK(mContext);
+        OnekeyShare oks=new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
+
+        oks.setTitle(goods.getGoodsName());//标题
+        oks.setText(goods.getGoodsBrief());//正文
+       // oks.setComment("我是评论文本");
+        oks.setTitleUrl(goods.getShareUrl()); //分享地址
+        PropertiesBean[] properties=goods.getProperArray();
+        AlbumsBean[] albumsBeens=properties[0].getAlbums();
+        Log.i("main",albumsBeens[0].getThumbUrl());
+        oks.setImageUrl(I.DOWNLOAD_IMG_URL+albumsBeens[0].getImgUrl()); //分享界面的图片
+        oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
+            @Override
+            public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
+                if ("Qzone".equals(platform.getName())){
+                  //  paramsToShare.setTitle("分享fyc空间");
+                }
+            }
+        });
+        oks.show(mContext);
     }
 }
