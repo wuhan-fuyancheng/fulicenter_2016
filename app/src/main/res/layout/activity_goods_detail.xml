@@ -21,7 +21,7 @@
             android:src="@mipmap/bg_share_nor"
             />
         <ImageView
-            android:id="@+id/iv_good_collect"
+            android:id="@+id/iv_good_coll"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/iv_good_share"
@@ -31,7 +31,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/iv_good_collect"
+            android:layout_toLeftOf="@id/iv_good_coll"
             >
             <ImageView
                 android:id="@+id/iv_good_cart"

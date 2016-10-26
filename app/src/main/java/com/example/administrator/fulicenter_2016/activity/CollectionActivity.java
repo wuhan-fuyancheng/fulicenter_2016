@@ -146,6 +146,8 @@ public class CollectionActivity extends AppCompatActivity {
             protected void onResume() {
                 Log.i("main","CollectionActivity_onResume");
                 super.onResume();
-
+                initData();
+                initView();
+                setListener();
             }
         }
