@@ -24,7 +24,8 @@
         <activity android:name=".activity.CatetoryChildCheickedActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.PersonAtivity"></activity>
+        <activity android:name=".activity.PersonAtivity" />
+        <activity android:name=".activity.CollectionActivity"></activity>
     </application>
 
 </manifest>

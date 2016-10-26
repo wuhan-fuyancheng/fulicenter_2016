@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.R;
+import com.example.administrator.fulicenter_2016.bean.MessageBean;
 import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.bean.User;
 import com.example.administrator.fulicenter_2016.dao.SharePrefrenceUtils;
@@ -223,4 +224,5 @@ public class PersonAtivity extends AppCompatActivity {
                 }).setNegativeButton("取消",null).create().show();
 
     }
+
 }

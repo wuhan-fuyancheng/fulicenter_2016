@@ -50,7 +50,8 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }
                 MFGT.gotoMainActivity(SplashActivity.this);
-                MFGT.finish(SplashActivity.this);
+                SplashActivity.this.finish();
+                SplashActivity.this.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
             }
         },sleepTime);
     }

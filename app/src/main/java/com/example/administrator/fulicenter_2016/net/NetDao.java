@@ -6,7 +6,9 @@ import android.content.Context;
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
 import com.example.administrator.fulicenter_2016.bean.CategoryChildBean;
 import com.example.administrator.fulicenter_2016.bean.CategoryGroupBean;
+import com.example.administrator.fulicenter_2016.bean.CollectBean;
 import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
+import com.example.administrator.fulicenter_2016.bean.MessageBean;
 import com.example.administrator.fulicenter_2016.bean.NewGoodsBean;
 import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.utils.I;
@@ -109,6 +111,20 @@ public class NetDao {
                 .post()
                 .execute(listener);
     }
-
-
+    public static void getCollectsCount(Context context, String name, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.Collect.USER_NAME,name)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+    public static void downloadCollect(Context context, String username, int pageId, OkHttpUtils.OnCompleteListener<CollectBean[]> listener) {
+        OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME, username)
+                .addParam(I.PAGE_ID, String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE, String.valueOf(I.PAGE_SIZE_DEFAULT))
+                .targetClass(CollectBean[].class)
+                .execute(listener);
+    }
 }

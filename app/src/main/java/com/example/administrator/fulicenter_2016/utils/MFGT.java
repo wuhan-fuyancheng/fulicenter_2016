@@ -9,6 +9,7 @@ import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.activity.BoutiqueChildctivity;
 import com.example.administrator.fulicenter_2016.activity.CatetoryChildCheickedActivity;
+import com.example.administrator.fulicenter_2016.activity.CollectionActivity;
 import com.example.administrator.fulicenter_2016.activity.GoodsDetailActivity;
 import com.example.administrator.fulicenter_2016.activity.LoginActivity;
 import com.example.administrator.fulicenter_2016.activity.PersonAtivity;
@@ -81,6 +82,11 @@ public class MFGT {
         Intent intent=new Intent();
         intent.setClass(context,PersonAtivity.class);
         context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoCollectGoodsActivity(Activity context){
+        startActivity(context, CollectionActivity.class);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 
 

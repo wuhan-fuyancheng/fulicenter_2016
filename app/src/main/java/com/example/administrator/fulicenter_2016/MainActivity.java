@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.fragment_container,fragmentNewGoods)
                 .add(R.id.fragment_container,fragmentBoutique)
-               .add(R.id.fragment_container,fragmentCategory)
+                .add(R.id.fragment_container,fragmentCategory)
                 .hide(fragmentCategory)
                 .hide(fragmentBoutique)
                 .show(fragmentNewGoods)
