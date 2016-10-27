@@ -1,5 +1,7 @@
 package com.example.administrator.fulicenter_2016.bean;
 
+import com.example.administrator.fulicenter_2016.utils.I;
+
 import java.io.Serializable;
 
 /**
@@ -49,7 +51,7 @@ public class CartBean implements Serializable{
         this.goodsId = goodsId;
     }
 
-    public Object getGoods() {
+    public GoodsDetailsBean getGoods() {
         return goods;
     }
 

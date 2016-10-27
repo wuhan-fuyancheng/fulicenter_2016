@@ -2,10 +2,13 @@ package com.example.administrator.fulicenter_2016.utils;
 
 import android.util.Log;
 
+import com.example.administrator.fulicenter_2016.bean.CartBean;
+import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
 import com.example.administrator.fulicenter_2016.bean.Result;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -15,6 +18,56 @@ import java.util.List;
 
 
 public class ResultUtils {
+    public static ArrayList<CartBean> getCartFromJson(String jsonStr){
+        ArrayList<CartBean> list=null;
+        try {
+            if (jsonStr==null||jsonStr.isEmpty()||jsonStr.length()<3){
+                return null;
+            }
+            JSONArray array=new JSONArray(jsonStr);
+            if (array!=null){
+                list=new ArrayList<>();
+                for (int i=0;i< array.length();i++){
+                    JSONObject jsonObject=array.getJSONObject(i);
+                    CartBean cart=new CartBean();
+                    if (!jsonObject.isNull("id")){
+                        cart.setId(jsonObject.getInt("id"));
+                    }
+                    if (!jsonObject.isNull("userName")){
+                        cart.setUserName(jsonObject.getString("userName"));
+                    }
+                    if (!jsonObject.isNull("goodsId")){
+                        cart.setGoodsId(jsonObject.getInt("goodsId"));
+                    }
+                    if (!jsonObject.isNull("count")){
+                        cart.setCount(jsonObject.getInt("count"));
+                    }
+                    if (!jsonObject.isNull("isChecked")){
+                        cart.setChecked(false);
+                    }
+                    if (!jsonObject.isNull("goods")){
+                        JSONObject jsonRetData=jsonObject.getJSONObject("goods");
+                        if (jsonRetData!=null){
+                            Log.i("Utils","JsonRetData="+jsonRetData);
+                            String date;
+                            date=URLDecoder.decode(jsonRetData.toString(),I.UTF_8);
+                            Log.i("Utils","jsonRetData="+date);
+                            GoodsDetailsBean g=new Gson().fromJson(date, GoodsDetailsBean.class);
+                            cart.setGoods(g);
+                        }
+                    }
+                    list.add(cart);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
     public static <T> Result getResultFromJson(String jsonStr, Class<T> clazz){
         Result result = new Result();
         try {

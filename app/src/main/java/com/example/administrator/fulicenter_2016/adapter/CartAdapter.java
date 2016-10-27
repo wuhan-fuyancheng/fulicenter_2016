@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter {
     Context context;
     ArrayList<CartBean> list;
+
 
 
     public CartAdapter(Context context, ArrayList<CartBean> list) {
@@ -78,7 +80,9 @@ public class CartAdapter extends RecyclerView.Adapter {
                 vh.tvCartGoodsprice.setText(goods.getCurrencyPrice());
             }
             Log.i("main", "Cart_cartBean_Count_" + cartBean.getCount());
-             vh.tvCartNum.setText("("+cartBean.getCount()+")");
+            vh.tvCartNum.setText("(" + cartBean.getCount() + ")");
+            vh.ivCartCheck.setOnCheckedChangeListener();
+
 
         }
 
@@ -99,9 +103,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     }
 
     public void initData(ArrayList<CartBean> list) {
-        if (list != null) {
-            this.list.clear();
-        }
+
         this.list = list;
         notifyDataSetChanged();
     }
@@ -126,8 +128,6 @@ public class CartAdapter extends RecyclerView.Adapter {
         @BindView(R.id.tv_cart_num)
         TextView tvCartNum;
         @BindView(R.id.iv_cart_check)
-        ImageView ivCartCheck;
-        @BindView(R.id.iv_cart_goodsimg)
         ImageView ivCartGoodsimg;
         @BindView(R.id.tv_cart_goodsname)
         TextView tvCartGoodsname;
@@ -139,6 +139,8 @@ public class CartAdapter extends RecyclerView.Adapter {
         RelativeLayout layoutNum;
         @BindView(R.id.tv_cart_goodsprice)
         TextView tvCartGoodsprice;
+        @BindView(R.id.iv_cart_check)
+        CheckBox ivCartCheck;
 
 
         CartViewHolder(View view) {

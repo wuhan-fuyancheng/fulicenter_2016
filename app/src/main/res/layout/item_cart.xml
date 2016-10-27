@@ -15,11 +15,11 @@
     android:layout_margin="3dp"
     android:background="@color/white"
     >
-    <ImageView
+    <CheckBox
         android:id="@+id/iv_cart_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ssdk_oks_classic_check_default"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        style="@style/CustomCheckboxTheme"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         />

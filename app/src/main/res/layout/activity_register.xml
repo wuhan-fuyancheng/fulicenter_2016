@@ -50,6 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="免费注册"
-        android:background="@drawable/btn_bg_orange"
+        android:background="@drawable/btn_bg_green"
         />
 </LinearLayout>
