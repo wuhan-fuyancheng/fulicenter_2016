@@ -59,6 +59,7 @@ public class FragmentCart extends Fragment {
     @BindView(R.id.tv_cart_rankprice)
     TextView tvCartRankprice;
     UpdateCartReceiver mReceiver;
+    UpdateCartReceiver mre;
 
     public FragmentCart() {
         // Required empty public constructor
@@ -82,7 +83,9 @@ public class FragmentCart extends Fragment {
 
     private void setListener() {
         setPullDownloadNewGoods();// 下拉刷新
-        IntentFilter filter=new IntentFilter(I.BROADCAST_UPDATA_CART);
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(I.BROADCAST_UPDATA_CART);
+        filter.addAction(I.BROADCAST_DELETE_CART);
         mReceiver=new UpdateCartReceiver();
         mContext.registerReceiver(mReceiver,filter);//注册广播
     }
@@ -184,7 +187,18 @@ public class FragmentCart extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            sumPice();
+            switch (intent.getAction()){
+                case I.BROADCAST_UPDATA_CART:
+                    sumPice();
+                    break;
+                case I.BROADCAST_DELETE_CART:
+                    if (mList.size()==0) {
+                        setCartLayout(false);
+                        Log.i("main","fragmentCart_listsize_");
+                    }
+            }
+              //  setCartLayout(false);
+
         }
 
     }

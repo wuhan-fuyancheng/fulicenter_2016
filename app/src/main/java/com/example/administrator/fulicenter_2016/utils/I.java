@@ -53,6 +53,7 @@ public interface I {
     int CATEGORY_GOOD=1;
     int CAT_ID=0;
     String BROADCAST_UPDATA_CART ="i.love.u";
+    String BROADCAST_DELETE_CART ="u.love.me";
 
     interface Goods {
         String KEY_RESULT = "result";

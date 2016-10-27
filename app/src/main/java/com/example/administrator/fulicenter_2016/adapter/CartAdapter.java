@@ -16,6 +16,9 @@ import android.widget.TextView;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.CartBean;
 import com.example.administrator.fulicenter_2016.bean.GoodsDetailsBean;
+import com.example.administrator.fulicenter_2016.bean.MessageBean;
+import com.example.administrator.fulicenter_2016.net.NetDao;
+import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
 
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/19.
@@ -79,6 +83,8 @@ public class CartAdapter extends RecyclerView.Adapter {
                 ImageLoader.downloadImg(context, ((CartViewHolder) holder).ivCartGoodsimg, goods.getGoodsThumb());
                 vh.tvCartGoodsname.setText(goods.getGoodsName());
                 vh.tvCartGoodsprice.setText(goods.getCurrencyPrice());
+                vh.ivCartAdd.setTag(position);
+
             }
             Log.i("main", "Cart_cartBean_Count_" + cartBean.getCount());
             vh.tvCartNum.setText("(" + cartBean.getCount() + ")");
@@ -122,6 +128,8 @@ public class CartAdapter extends RecyclerView.Adapter {
     }
 
 
+
+
     static class FooterHolder extends ViewHolder {
         @BindView(R.id.tv_footer)
         TextView tvFooter;
@@ -154,6 +162,73 @@ public class CartAdapter extends RecyclerView.Adapter {
         CartViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+
+        @OnClick({R.id.iv_cart_add, R.id.tv_cart_del})
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.iv_cart_add:
+                    final int position = (int) ivCartAdd.getTag();
+                    CartBean cart = list.get(position);
+                    NetDao.updateCart(context, cart.getId(), cart.getCount() + 1, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            if (result != null && result.isSuccess()) {
+                                list.get(position).setCount(list.get(position).getCount() + 1);
+                                context.sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART));
+                                tvCartNum.setText("(" + list.get(position).getCount() + ")");
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+
+                    break;
+                case R.id.tv_cart_del:
+                    final int positionn = (int) ivCartAdd.getTag();
+                    CartBean cartt = list.get(positionn);
+                    if (cartt.getCount() > 0) {
+                        NetDao.updateCart(context, cartt.getId(), cartt.getCount() - 1, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                            @Override
+                            public void onSuccess(MessageBean result) {
+                                if (result != null && result.isSuccess()) {
+                                    list.get(positionn).setCount(list.get(positionn).getCount() - 1);
+                                    context.sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART));
+                                    tvCartNum.setText("(" + list.get(positionn).getCount() + ")");
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
+                        break;
+                    }
+            }
+        }
+        @OnClick(R.id.iv_cart_delete)
+        public void onDeleteClick() {
+            final int position = (int) ivCartAdd.getTag();
+            CartBean cart = list.get(position);
+            NetDao.deleteCart(context, cart.getId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result != null && result.isSuccess()) {
+                        list.remove(position);
+                        context.sendBroadcast(new Intent(I.BROADCAST_DELETE_CART));
+                        notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
         }
     }
 }
