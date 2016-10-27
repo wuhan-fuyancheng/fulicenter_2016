@@ -1,6 +1,10 @@
 package com.example.administrator.fulicenter_2016.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -54,6 +58,7 @@ public class FragmentCart extends Fragment {
     TextView tvCartCurrentprice;
     @BindView(R.id.tv_cart_rankprice)
     TextView tvCartRankprice;
+    UpdateCartReceiver mReceiver;
 
     public FragmentCart() {
         // Required empty public constructor
@@ -77,6 +82,9 @@ public class FragmentCart extends Fragment {
 
     private void setListener() {
         setPullDownloadNewGoods();// 下拉刷新
+        IntentFilter filter=new IntentFilter(I.BROADCAST_UPDATA_CART);
+        mReceiver=new UpdateCartReceiver();
+        mContext.registerReceiver(mReceiver,filter);//注册广播
     }
 
     private void setPullDownloadNewGoods() {
@@ -172,4 +180,20 @@ public class FragmentCart extends Fragment {
         return Integer.valueOf(price);
     }
 
+    class UpdateCartReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sumPice();
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mReceiver!=null){
+            mContext.unregisterReceiver(mReceiver);  //销毁广播
+        }
+    }
 }

@@ -1,12 +1,14 @@
 package com.example.administrator.fulicenter_2016.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,7 +30,6 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter {
     Context context;
     ArrayList<CartBean> list;
-
 
 
     public CartAdapter(Context context, ArrayList<CartBean> list) {
@@ -72,7 +73,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             vh.tvFooter.setText(footsettext());
         } else {
             CartViewHolder vh = (CartViewHolder) holder;
-            CartBean cartBean = list.get(position);
+            final CartBean cartBean = list.get(position);
             GoodsDetailsBean goods = (GoodsDetailsBean) cartBean.getGoods();
             if (goods != null) {
                 ImageLoader.downloadImg(context, ((CartViewHolder) holder).ivCartGoodsimg, goods.getGoodsThumb());
@@ -81,7 +82,14 @@ public class CartAdapter extends RecyclerView.Adapter {
             }
             Log.i("main", "Cart_cartBean_Count_" + cartBean.getCount());
             vh.tvCartNum.setText("(" + cartBean.getCount() + ")");
-            vh.ivCartCheck.setOnCheckedChangeListener();
+            vh.ivCartCheck.setChecked(cartBean.isChecked());
+            vh.ivCartCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    cartBean.setChecked(b);
+                    context.sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART));
+                }
+            });
 
 
         }
@@ -127,7 +135,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     class CartViewHolder extends ViewHolder {
         @BindView(R.id.tv_cart_num)
         TextView tvCartNum;
-        @BindView(R.id.iv_cart_check)
+        @BindView(R.id.iv_cart_goodsimg)
         ImageView ivCartGoodsimg;
         @BindView(R.id.tv_cart_goodsname)
         TextView tvCartGoodsname;
