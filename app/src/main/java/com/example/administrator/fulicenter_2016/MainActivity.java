@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.example.administrator.fulicenter_2016.fragment.FragmentBoutique;
+import com.example.administrator.fulicenter_2016.fragment.FragmentCart;
 import com.example.administrator.fulicenter_2016.fragment.FragmentCategory;
 import com.example.administrator.fulicenter_2016.fragment.FragmentMe;
 import com.example.administrator.fulicenter_2016.fragment.FragmentNewGoods;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentNewGoods fragmentNewGoods;
     FragmentBoutique fragmentBoutique;
     FragmentCategory fragmentCategory;
+    FragmentCart fragmentCart;
     FragmentMe mFragmentMe;
     @BindView(R.id.mainRB1)
     RadioButton mainRB1;
@@ -57,18 +59,20 @@ public class MainActivity extends AppCompatActivity {
         fragmentNewGoods=new FragmentNewGoods();
         fragmentBoutique=new FragmentBoutique();
         fragmentCategory=new FragmentCategory();
+        fragmentCart=new FragmentCart();
         mFragmentMe=new FragmentMe();
         fragments[0]=fragmentNewGoods;
         fragments[1]=fragmentBoutique;
         fragments[2]=fragmentCategory;
+        fragments[3]=fragmentCart;
         fragments[4]=mFragmentMe;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container,fragmentNewGoods)
-                .add(R.id.fragment_container,fragmentBoutique)
-                .add(R.id.fragment_container,fragmentCategory)
-                .hide(fragmentCategory)
-                .hide(fragmentBoutique)
+               // .add(R.id.fragment_container,fragmentBoutique)
+             //   .add(R.id.fragment_container,fragmentCategory)
+              //  .hide(fragmentCategory)
+             //   .hide(fragmentBoutique)
                 .show(fragmentNewGoods)
                 .commit();
     }
