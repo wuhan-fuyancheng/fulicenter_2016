@@ -210,4 +210,10 @@ public class FragmentCart extends Fragment {
             mContext.unregisterReceiver(mReceiver);  //销毁广播
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        downloadCartdata(I.ACTION_DOWNLOAD);
+    }
 }

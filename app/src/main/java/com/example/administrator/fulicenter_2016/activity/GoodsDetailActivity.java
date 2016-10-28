@@ -265,6 +265,21 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private void goCart() {
+        NetDao.addCart(mContext, goodsId, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if (result!=null&&result.isSuccess()){
+                    Toast.makeText(GoodsDetailActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(GoodsDetailActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onError(String error) {
+                Toast.makeText(GoodsDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
