@@ -89,8 +89,9 @@ public class MFGT {
         startActivity(context, CollectionActivity.class);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
-    public static void gotoPayActivity(Activity context){
-        startActivity(context, PayActivity.class);
+    public static void gotoPayActivity(Activity context,String cartIds){
+        Intent intent=new Intent(context,PayActivity.class).putExtra(I.Cart.ID,cartIds);
+        context.startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 

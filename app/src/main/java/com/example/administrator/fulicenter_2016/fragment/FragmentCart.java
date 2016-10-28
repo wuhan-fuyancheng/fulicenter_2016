@@ -61,6 +61,7 @@ public class FragmentCart extends Fragment {
     TextView tvCartRankprice;
     UpdateCartReceiver mReceiver;
     UpdateCartReceiver mre;
+    String cartId="";
 
     public FragmentCart() {
         // Required empty public constructor
@@ -165,8 +166,10 @@ public class FragmentCart extends Fragment {
         int sumPrice = 0;
         int rankPrice = 0;
         if (mList != null && mList.size() > 0) {
+            cartId="";
             for (CartBean c : mList) {
                 if (c.isChecked()) {
+                    cartId+=c.getId()+",";
                     sumPrice += getPrice(c.getGoods().getCurrencyPrice()) * c.getCount();
                     rankPrice += getPrice(c.getGoods().getRankPrice()) * c.getCount();
                 }
@@ -186,7 +189,7 @@ public class FragmentCart extends Fragment {
 
     @OnClick(R.id.bt_cart_buy)
     public void onbuyClick() {
-        MFGT.gotoPayActivity(mContext);
+        MFGT.gotoPayActivity(mContext,cartId);
     }
 
 
