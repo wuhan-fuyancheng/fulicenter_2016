@@ -12,6 +12,7 @@ import com.example.administrator.fulicenter_2016.activity.CatetoryChildCheickedA
 import com.example.administrator.fulicenter_2016.activity.CollectionActivity;
 import com.example.administrator.fulicenter_2016.activity.GoodsDetailActivity;
 import com.example.administrator.fulicenter_2016.activity.LoginActivity;
+import com.example.administrator.fulicenter_2016.activity.PayActivity;
 import com.example.administrator.fulicenter_2016.activity.PersonAtivity;
 import com.example.administrator.fulicenter_2016.activity.RegisterActivity;
 import com.example.administrator.fulicenter_2016.bean.BoutiqueBean;
@@ -86,6 +87,10 @@ public class MFGT {
     }
     public static void gotoCollectGoodsActivity(Activity context){
         startActivity(context, CollectionActivity.class);
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoPayActivity(Activity context){
+        startActivity(context, PayActivity.class);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 

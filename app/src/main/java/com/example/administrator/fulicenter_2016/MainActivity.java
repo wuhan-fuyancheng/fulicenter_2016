@@ -98,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 index=2;
                 break;
             case R.id.mainRB4:
-                index=3;
+                if (FuLiCenterApplication.getInstance().getUser()==null){
+                    MFGT.gotoLoginActivity(this);
+                }
+                else {
+                    index=3;}
                 break;
             case R.id.mainRB5:
                 if (FuLiCenterApplication.getInstance().getUser()==null){

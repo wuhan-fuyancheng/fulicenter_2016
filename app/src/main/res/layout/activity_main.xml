@@ -72,10 +72,9 @@
                     android:id="@+id/tvshopcart"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:background="@drawable/cart_hint"
+
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
-                    android:text="13"
                     android:textColor="#ffff"
                     android:textSize="12dp"
                     android:visibility="visible"

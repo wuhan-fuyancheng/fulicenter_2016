@@ -20,20 +20,21 @@ import android.widget.TextView;
 import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.MainActivity;
 import com.example.administrator.fulicenter_2016.R;
+import com.example.administrator.fulicenter_2016.activity.PayActivity;
 import com.example.administrator.fulicenter_2016.adapter.CartAdapter;
 import com.example.administrator.fulicenter_2016.bean.CartBean;
-import com.example.administrator.fulicenter_2016.bean.Result;
 import com.example.administrator.fulicenter_2016.bean.User;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
-import com.example.administrator.fulicenter_2016.utils.ConvertUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 import com.example.administrator.fulicenter_2016.utils.ResultUtils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,11 +84,11 @@ public class FragmentCart extends Fragment {
 
     private void setListener() {
         setPullDownloadNewGoods();// 下拉刷新
-        IntentFilter filter=new IntentFilter();
+        IntentFilter filter = new IntentFilter();
         filter.addAction(I.BROADCAST_UPDATA_CART);
         filter.addAction(I.BROADCAST_DELETE_CART);
-        mReceiver=new UpdateCartReceiver();
-        mContext.registerReceiver(mReceiver,filter);//注册广播
+        mReceiver = new UpdateCartReceiver();
+        mContext.registerReceiver(mReceiver, filter);//注册广播
     }
 
     private void setPullDownloadNewGoods() {
@@ -117,12 +118,12 @@ public class FragmentCart extends Fragment {
                         tvfresh.setVisibility(View.GONE);
                         ArrayList<CartBean> list = ResultUtils.getCartFromJson(s);
                         if (list != null && list.size() > 0) {
-                            Log.i("main","cartList_"+list);
+                            Log.i("main", "cartList_" + list);
                             mList.clear();
                             mList.addAll(list);
                             mAdapter.initData(mList);
                             setCartLayout(true);
-                        }else {
+                        } else {
                             setCartLayout(false);
                         }
                     }
@@ -150,7 +151,7 @@ public class FragmentCart extends Fragment {
         cartRecView.setLayoutManager(llm);
         cartRecView.setHasFixedSize(true); //可否修复大小
         cartRecView.setAdapter(mAdapter);
-       // setCartLayout(false);
+        // setCartLayout(false);
     }
 
     private void setCartLayout(boolean hasCart) {
@@ -164,15 +165,15 @@ public class FragmentCart extends Fragment {
         int sumPrice = 0;
         int rankPrice = 0;
         if (mList != null && mList.size() > 0) {
-            for (CartBean c:mList) {
+            for (CartBean c : mList) {
                 if (c.isChecked()) {
-                    sumPrice += getPrice(c.getGoods().getCurrencyPrice())*c.getCount();
-                    rankPrice += getPrice(c.getGoods().getRankPrice())* c.getCount();
+                    sumPrice += getPrice(c.getGoods().getCurrencyPrice()) * c.getCount();
+                    rankPrice += getPrice(c.getGoods().getRankPrice()) * c.getCount();
                 }
             }
-            tvCartCurrentprice.setText("合计：￥"+Double.valueOf(rankPrice));
-            tvCartRankprice.setText("节省：￥"+Double.valueOf(sumPrice-rankPrice));
-        }else {
+            tvCartCurrentprice.setText("合计：￥" + Double.valueOf(rankPrice));
+            tvCartRankprice.setText("节省：￥" + Double.valueOf(sumPrice - rankPrice));
+        } else {
             tvCartCurrentprice.setText("合计：￥0");
             tvCartRankprice.setText("节省：￥0");
         }
@@ -183,21 +184,28 @@ public class FragmentCart extends Fragment {
         return Integer.valueOf(price);
     }
 
-    class UpdateCartReceiver extends BroadcastReceiver{
+    @OnClick(R.id.bt_cart_buy)
+    public void onbuyClick() {
+        MFGT.gotoPayActivity(mContext);
+    }
+
+
+
+    class UpdateCartReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()){
+            switch (intent.getAction()) {
                 case I.BROADCAST_UPDATA_CART:
                     sumPice();
                     break;
                 case I.BROADCAST_DELETE_CART:
-                    if (mList.size()==0) {
+                    if (mList.size() == 0) {
                         setCartLayout(false);
-                        Log.i("main","fragmentCart_listsize_");
+                        Log.i("main", "fragmentCart_listsize_");
                     }
             }
-              //  setCartLayout(false);
+            //  setCartLayout(false);
 
         }
 
@@ -206,7 +214,7 @@ public class FragmentCart extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mReceiver!=null){
+        if (mReceiver != null) {
             mContext.unregisterReceiver(mReceiver);  //销毁广播
         }
     }
