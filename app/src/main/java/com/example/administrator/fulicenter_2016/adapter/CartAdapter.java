@@ -1,5 +1,6 @@
 package com.example.administrator.fulicenter_2016.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
 import com.example.administrator.fulicenter_2016.utils.ImageLoader;
+import com.example.administrator.fulicenter_2016.utils.MFGT;
 
 import java.util.ArrayList;
 
@@ -163,6 +165,12 @@ public class CartAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
+        @OnClick(R.id.layout_item_cart)
+        public void onClick() {
+            final int position= (int) ivCartAdd.getTag();
+            CartBean cart=list.get(position);
+            MFGT.gotoGoodsDetailsActivity((Activity) context,cart.getGoodsId());
+        }
 
         @OnClick({R.id.iv_cart_add, R.id.tv_cart_del})
         public void onClick(View view) {
@@ -210,6 +218,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     }
             }
         }
+
         @OnClick(R.id.iv_cart_delete)
         public void onDeleteClick() {
             final int position = (int) ivCartAdd.getTag();

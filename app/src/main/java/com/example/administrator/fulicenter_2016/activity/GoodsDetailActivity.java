@@ -19,7 +19,6 @@ import com.example.administrator.fulicenter_2016.bean.User;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
 import com.example.administrator.fulicenter_2016.utils.I;
-import com.example.administrator.fulicenter_2016.utils.ImageLoader;
 import com.example.administrator.fulicenter_2016.utils.MFGT;
 import com.example.administrator.fulicenter_2016.views.FlowIndicator;
 import com.example.administrator.fulicenter_2016.views.SlideAutoLoopView;
@@ -75,7 +74,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
-        ShareSDK.initSDK(mContext,"185d0d0a9eb8a");
+        ShareSDK.initSDK(mContext, "185d0d0a9eb8a");
     }
 
     private void setListener() {
@@ -88,7 +87,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             public void onSuccess(GoodsDetailsBean result) {
                 if (result != null) {
                     showGoodDetails(result);
-                    goods=result;
+                    goods = result;
                 }
             }
 
@@ -227,32 +226,45 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @OnClick(R.id.iv_good_share)
     public void onShareClick() {
         Toast.makeText(GoodsDetailActivity.this, "123", Toast.LENGTH_SHORT).show();
-        if (goods!=null) {
+        if (goods != null) {
             showShare();
         }
     }
 
     private void showShare() {
         ShareSDK.initSDK(mContext);
-        OnekeyShare oks=new OnekeyShare();
+        OnekeyShare oks = new OnekeyShare();
         oks.disableSSOWhenAuthorize();
 
         oks.setTitle(goods.getGoodsName());//标题
         oks.setText(goods.getGoodsBrief());//正文
-       // oks.setComment("我是评论文本");
+        // oks.setComment("我是评论文本");
         oks.setTitleUrl(goods.getShareUrl()); //分享地址
-        PropertiesBean[] properties=goods.getProperArray();
-        AlbumsBean[] albumsBeens=properties[0].getAlbums();
-        Log.i("main",albumsBeens[0].getThumbUrl());
-        oks.setImageUrl(I.DOWNLOAD_IMG_URL+albumsBeens[0].getImgUrl()); //分享界面的图片
+        PropertiesBean[] properties = goods.getProperArray();
+        AlbumsBean[] albumsBeens = properties[0].getAlbums();
+        Log.i("main", albumsBeens[0].getThumbUrl());
+        oks.setImageUrl(I.DOWNLOAD_IMG_URL + albumsBeens[0].getImgUrl()); //分享界面的图片
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
             public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
-                if ("Qzone".equals(platform.getName())){
-                  //  paramsToShare.setTitle("分享fyc空间");
+                if ("Qzone".equals(platform.getName())) {
+                    //  paramsToShare.setTitle("分享fyc空间");
                 }
             }
         });
         oks.show(mContext);
+    }
+
+    @OnClick(R.id.iv_good_cart)
+    public void onCartClick() {
+        if(user==null){
+            MFGT.gotoLoginActivity(mContext);
+        }else {
+            goCart();
+        }
+    }
+
+    private void goCart() {
+
     }
 }
