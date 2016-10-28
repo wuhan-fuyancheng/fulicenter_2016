@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\cmbkb_push_bottom_in.xml",
+        "source": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\build\\intermediates\\exploded-aar\\FuLiCenter_2016.lib\\pingpp\\unspecified\\res\\anim\\cmbkb_push_bottom_in.xml"
+    },
+    {
+        "merged": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\dialog_enter.xml",
+        "source": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\res\\anim\\dialog_enter.xml"
+    },
+    {
+        "merged": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\cmbkb_push_bottom_out.xml",
+        "source": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\build\\intermediates\\exploded-aar\\FuLiCenter_2016.lib\\pingpp\\unspecified\\res\\anim\\cmbkb_push_bottom_out.xml"
+    },
+    {
+        "merged": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\dialog_exit.xml",
+        "source": "D:\\myandroid\\FuLiCenter_2016\\lib\\pingpp_one\\res\\anim\\dialog_exit.xml"
+    }
+]
