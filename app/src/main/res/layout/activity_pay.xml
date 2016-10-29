@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
+            android:text="付延承"
             />
     </LinearLayout>
     <LinearLayout
@@ -50,6 +51,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/white"
             android:inputType="phone"
+            android:text="18307202641"
             />
     </LinearLayout>
     <LinearLayout
@@ -96,6 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
+            android:text="武汉江夏区"
             />
     </LinearLayout>
     <RelativeLayout

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.administrator.fulicenter_2016.FuLiCenterApplication;
 import com.example.administrator.fulicenter_2016.R;
 import com.example.administrator.fulicenter_2016.bean.CartBean;
+import com.example.administrator.fulicenter_2016.bean.MessageBean;
 import com.example.administrator.fulicenter_2016.bean.User;
 import com.example.administrator.fulicenter_2016.net.NetDao;
 import com.example.administrator.fulicenter_2016.net.OkHttpUtils;
@@ -147,6 +148,8 @@ public class PayActivity extends AppCompatActivity implements PaymentHandler {
             etPayUsername.setError("收货人不能为空");
             etPayUsername.requestFocus();
             return;
+        }else {
+            etPayUsername.setText(username);
         }
         String phone=etPayPhone.getText().toString();
         if (TextUtils.isEmpty(phone)){
@@ -154,10 +157,12 @@ public class PayActivity extends AppCompatActivity implements PaymentHandler {
             etPayPhone.requestFocus();
             return;
         }
-        if (!phone.matches("[\\d]{11}")){
+        else if (!phone.matches("[\\d]{11}")){
             etPayPhone.setError("手机号码格式错误");
             etPayPhone.requestFocus();
             return;
+        }else {
+            etPayPhone.setText(phone);
         }
         String area=spinner.getSelectedItem().toString();
         if (TextUtils.isEmpty(area)){
@@ -170,6 +175,8 @@ public class PayActivity extends AppCompatActivity implements PaymentHandler {
             etPayAdress.setError("街道地址不能为空");
             etPayAdress.requestFocus();
             return;
+        }else {
+            etPayAdress.setText(street);
         }
         gotoStatements();
 
@@ -208,7 +215,6 @@ public class PayActivity extends AppCompatActivity implements PaymentHandler {
     @Override
     public void handlePaymentResult(Intent data) {
         if (data != null) {
-
             // result：支付结果信息
             // code：支付结果码
             //-2:用户自定义错误
@@ -217,7 +223,7 @@ public class PayActivity extends AppCompatActivity implements PaymentHandler {
             // 1：成功
             // 2:应用内快捷支付支付结果
 
-            if (data.getExtras().getInt("code") != 2) {
+            if (data.getExtras().getInt("code")!= 2) {
                 PingppLog.d(data.getExtras().getString("result") + "  " + data.getExtras().getInt("code"));
             } else {
                 String result = data.getStringExtra("result");
@@ -227,12 +233,42 @@ public class PayActivity extends AppCompatActivity implements PaymentHandler {
                         result = resultJson.optJSONObject("error").toString();
                     } else if (resultJson.has("success")) {
                         result = resultJson.optJSONObject("success").toString();
+                        delecart();
                     }
                    Log.i("main","handlePaymentResult_result::" + result);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            int resultCode=data.getExtras().getInt("code");
+            Log.i("main","payactivity_code_"+resultCode);
+            switch (resultCode){
+                case 1:
+                    delecart();
+                    Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+                case -1:
+                    Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+            }
+
+        }
+    }
+    private void delecart(){
+        for (String id:ids){
+            NetDao.deleteCart(mContext,Integer.valueOf(id), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
         }
     }
 
