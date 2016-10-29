@@ -89,22 +89,12 @@ public class FragmentCategory extends Fragment {
                 srlCategory.setRefreshing(false);
                 if (result != null && result.length > 0) {
                     ArrayList<CategoryGroupBean> list = ConvertUtils.array2List(result);
-                    if (action==I.ACTION_DOWNLOAD) {
+                    if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN) {
                         groupList.addAll(list);
                         for (int i = 0; i < list.size(); i++) {
                             childList.add(new ArrayList<CategoryChildBean>());
                             childId = list.get(i).getId();
                             downloadCategoryChild(childId, i);
-                        }
-                    }
-                    if (action==I.ACTION_PULL_DOWN){
-                        if (groupList.size()!=list.size()) {
-                            groupList.addAll(list);
-                            for (int i = 0; i < list.size(); i++) {
-                                childList.add(new ArrayList<CategoryChildBean>());
-                                childId = list.get(i).getId();
-                                downloadCategoryChild(childId, i);
-                            }
                         }
                     }
                 }

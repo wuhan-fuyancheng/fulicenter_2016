@@ -2,18 +2,34 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="75dp"
     android:layout_margin="6dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="#fef"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/white"
+        >
+        <CheckBox
+            android:id="@+id/iv_cart_check"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            style="@style/CustomCheckboxTheme"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            />
+
+
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="90dp"
-    app:cardCornerRadius="5dp"
+    android:layout_height="70dp"
     android:layout_margin="3dp"
+    android:layout_toRightOf="@id/iv_cart_check"
+    android:layout_marginLeft="15dp"
     android:background="@color/white"
     android:id="@+id/layout_item_cart"
     >
@@ -27,19 +43,11 @@
         android:layout_height="25dp"
         android:src="@mipmap/deleteee"
         />
-    <CheckBox
-        android:id="@+id/iv_cart_check"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        style="@style/CustomCheckboxTheme"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        />
+
     <ImageView
         android:id="@+id/iv_cart_goodsimg"
-        android:layout_toRightOf="@id/iv_cart_check"
+
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
         android:src="@drawable/nopic"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -52,25 +60,26 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_cart_goodsname"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="名称"
             android:textSize="20sp"
+            android:singleLine="true"
             android:layout_marginLeft="10dp"
             android:textColor="@color/orange"
             />
         <LinearLayout
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_below="@id/tv_cart_goodsname"
             android:orientation="horizontal"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/iv_cart_add"
                 android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/add_cart"
                 />
             <TextView
@@ -80,12 +89,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:text="2"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 />
             <ImageView
                 android:id="@+id/tv_cart_del"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/del_cart"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
@@ -108,4 +117,5 @@
         />
 
 </RelativeLayout>
+    </RelativeLayout>
     </android.support.v7.widget.CardView>
